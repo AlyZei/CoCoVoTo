@@ -65,5 +65,5 @@ Pas de compte, pas de publicité, pas de suivi. L’application ne contacte aucu
 
 ## Crédits et licences
 
-- Placements des rotations adaptés de [VBRotations](https://github.com/monkeysppp/VBRotations) d’Andy Edwards, sous licence Apache 2.0 (voir `LICENCES/VBRotations-Apache-2.0.md`).
+- Placements des rotations repris de [rotazionivolley](https://github.com/napo/rotazionivolley) de Maurizio Napolitano (version de 2019, sous licence Apache 2.0), lui-même basé sur [VBRotations](https://github.com/monkeysppp/VBRotations) d’Andy Edwards (licence Apache 2.0). Détails dans `LICENCES/SOURCES-rotations.md`, texte de la licence dans `LICENCES/VBRotations-Apache-2.0.md`.
 - Polices Barlow Condensed et Figtree, sous SIL Open Font License 1.1 (voir `LICENCES/`).

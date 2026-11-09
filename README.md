@@ -32,4 +32,4 @@ Une application installée s’ouvre comme une application classique, en plein �
 
 ## Crédits
 
-Les placements de l’aide-mémoire des rotations sont adaptés de [VBRotations](https://github.com/monkeysppp/VBRotations) d’Andy Edwards (licence Apache 2.0). Polices Barlow Condensed et Figtree (SIL Open Font License). Les textes des licences se trouvent dans le dossier `LICENCES/` de chaque application.
+Les placements de l’aide-mémoire des rotations viennent de [rotazionivolley](https://github.com/napo/rotazionivolley) de Maurizio Napolitano (version de 2019, licence Apache 2.0), lui-même basé sur [VBRotations](https://github.com/monkeysppp/VBRotations) d’Andy Edwards (licence Apache 2.0). Polices Barlow Condensed et Figtree (SIL Open Font License). Les textes des licences se trouvent dans le dossier `LICENCES/` de chaque application.
