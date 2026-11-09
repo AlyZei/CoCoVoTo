@@ -1,38 +1,35 @@
 # CoCoVoTo
 
-Outils de volley qui fonctionnent entièrement dans le navigateur, sans serveur ni compte.
+Des outils gratuits pour les entraîneurs et les équipes de volley. Ils s’ouvrent dans le navigateur, sur téléphone comme sur ordinateur, sans compte ni inscription.
 
-| Application | Adresse | Dossier |
-|---|---|---|
-| Compos Volley | https://alyzei.github.io/CoCoVoTo/compos-volley/ | [`compos-volley/`](compos-volley/) |
+**Accès direct : https://alyzei.github.io/CoCoVoTo/**
 
-La page d’accueil (https://alyzei.github.io/CoCoVoTo/) liste les applications.
+## Les applications
 
-## Organisation du dépôt
+### [Compos Volley](https://alyzei.github.io/CoCoVoTo/compos-volley/)
 
-- Une application = un dossier, avec tous ses fichiers (`index.html`, `app.js`, `styles.css`, `sw.js`, `manifest.webmanifest`, `fonts/`, `icons/`, `LICENCES/`).
-- À la racine : seulement cette page d’accueil (`index.html`), ce `README.md` et `.nojekyll`.
-- Publication : **Settings → Pages → Deploy from a branch → main / (root)**.
+Pour préparer les matchs et les entraînements :
 
-## Mettre à jour une application
+- l’effectif, les postes préférés de chacun et le niveau à chaque poste ;
+- des compositions en 6 contre 6 (5-1, 5-1 avec libéro, 4-2), set par set, avec le banc et les changements ;
+- des matchs en 4 contre 4 où le temps de jeu s’équilibre d’un match à l’autre ;
+- un aide-mémoire animé des rotations : service, réception, attaque et défense.
 
-1. Remplacez les fichiers dans son dossier (**Add file → Upload files**, puis **Commit changes**).
-2. Dans le `sw.js` de ce dossier, passez `VERSION` à la valeur suivante (`compos-volley-v1` → `compos-volley-v2`…).
+Plus de détails dans le [guide de Compos Volley](compos-volley/README.md).
 
-## Ajouter une nouvelle application
+## Installer sur votre téléphone
 
-Toutes les applications de ce compte partagent la même origine (`alyzei.github.io`), donc le même stockage navigateur. Pour qu’elles ne se gênent pas :
+Une application installée s’ouvre comme une application classique, en plein écran, et fonctionne même sans réseau.
 
-- un dossier par application ;
-- un nom de clé de stockage propre à l’application (Compos Volley utilise `vb-compos-equipes-v1` et `vb-lineup-builder-v1`) ;
-- un préfixe de cache propre dans son `sw.js` (Compos Volley utilise `compos-volley-`).
+- **iPhone / iPad** : ouvrez l’application dans **Safari**, touchez **Partager**, puis **Sur l’écran d’accueil**.
+- **Android** : ouvrez l’application dans **Chrome**, menu **⋮**, puis **Installer l’application** (ou **Ajouter à l’écran d’accueil**).
 
-## Confidentialité et sécurité
+## Vos données
 
-- Les équipes et les niveaux restent dans le navigateur de chaque entraîneur ; ils ne sont jamais envoyés ni enregistrés dans ce dépôt.
-- Ne mettez pas de vraies données de joueurs dans le dépôt : il est public.
-- Pas de traceur ni de ressource externe ; les polices sont hébergées avec l’application.
+- Tout ce que vous saisissez reste **sur votre appareil**. Rien n’est envoyé sur internet, et personne d’autre n’y a accès.
+- Pas de compte, pas de publicité, pas de suivi.
+- Chaque appareil garde ses propres données : pensez à faire une sauvegarde depuis l’application avant de changer de téléphone.
 
-## Licences
+## Crédits
 
-Voir le dossier `LICENCES/` de chaque application (placements de rotation adaptés de VBRotations, Apache 2.0 ; polices sous SIL OFL 1.1).
+Les placements de l’aide-mémoire des rotations viennent de [rotazionivolley](https://github.com/napo/rotazionivolley) de Maurizio Napolitano (version de 2019, licence Apache 2.0), lui-même basé sur [VBRotations](https://github.com/monkeysppp/VBRotations) d’Andy Edwards (licence Apache 2.0). Polices Barlow Condensed et Figtree (SIL Open Font License). Les textes des licences se trouvent dans le dossier `LICENCES/` de chaque application.
