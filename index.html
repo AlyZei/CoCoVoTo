@@ -3,304 +3,43 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data: blob:; connect-src 'self'; manifest-src 'self'; worker-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self'; script-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
 <meta name="referrer" content="no-referrer">
-<title>Compos Volley</title>
-<meta name="description" content="Compos de volley : effectifs, postes, niveaux, formations 6×6 et 4×4, rotations.">
-<meta name="theme-color" content="#eef1f6" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#0c1322" media="(prefers-color-scheme: dark)">
-<meta name="mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-title" content="Compos Volley">
-<meta name="apple-mobile-web-app-status-bar-style" content="default">
-<link rel="manifest" href="manifest.webmanifest">
-<link rel="icon" href="icons/favicon.svg" type="image/svg+xml">
-<link rel="icon" href="icons/icon-192.png" sizes="192x192" type="image/png">
-<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
-<link rel="preload" href="fonts/figtree-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="fonts/barlow-condensed-latin-700-normal.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="styles.css">
+<title>CoCoVoTo</title>
+<meta name="description" content="Outils de volley : compos d’équipe, rotations et matchs en 4 contre 4.">
+<link rel="icon" href="compos-volley/icons/favicon.svg" type="image/svg+xml">
+<style>
+@font-face{font-family:"Barlow Condensed";font-weight:700;font-display:swap;src:url(compos-volley/fonts/barlow-condensed-latin-700-normal.woff2) format("woff2")}
+@font-face{font-family:"Figtree";font-weight:400;font-display:swap;src:url(compos-volley/fonts/figtree-latin-400-normal.woff2) format("woff2")}
+@font-face{font-family:"Figtree";font-weight:600;font-display:swap;src:url(compos-volley/fonts/figtree-latin-600-normal.woff2) format("woff2")}
+:root{--bg:#eef1f6;--surface:#fff;--ink:#152038;--muted:#5a6680;--line:#d6dce8;--accent:#f2c230}
+@media (prefers-color-scheme:dark){:root{--bg:#0c1322;--surface:#141d31;--ink:#e7ecf7;--muted:#97a3bd;--line:#2a3752;color-scheme:dark}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 "Figtree",system-ui,sans-serif;
+  padding:max(32px,env(safe-area-inset-top)) max(16px,env(safe-area-inset-right)) 32px max(16px,env(safe-area-inset-left))}
+main{max-width:640px;margin:0 auto;display:grid;gap:20px}
+h1{font:700 clamp(34px,7vw,48px)/1 "Barlow Condensed","Arial Narrow",sans-serif;text-transform:uppercase;letter-spacing:.02em;margin:0}
+p{margin:0;color:var(--muted)}
+.apps{list-style:none;margin:0;padding:0;display:grid;gap:12px}
+.app{display:flex;gap:14px;align-items:center;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px 16px;color:inherit;text-decoration:none}
+.app:hover,.app:focus-visible{border-color:var(--accent);outline:none;box-shadow:0 0 0 2px var(--accent) inset}
+.app img{width:52px;height:52px;border-radius:12px;flex:none}
+.app strong{display:block;font-size:17px}
+.app span{color:var(--muted);font-size:14px}
+footer{font-size:12.5px;color:var(--muted)}
+</style>
 </head>
 <body>
-<div class="wrap">
-  <header class="masthead">
-    <h1>Compos Volley<span class="ball" aria-hidden="true"></span></h1>
-    <div class="toolbar">
-      <button class="btn" data-action="q4-open">4 contre 4</button>
-      <button class="btn" data-action="rot-open">Aide-mémoire des rotations</button>
-    </div>
-    <p>Indiquez qui est là et où chacun aime jouer, puis comparez les formations et la rotation du banc set par set.</p>
-  </header>
-  <section class="teambar" id="team6-bar" aria-label="Équipes 6×6"></section>
-
-  <div class="app">
-    <!-- GAUCHE -->
-    <div class="col">
-      <section class="panel" aria-labelledby="squad-h">
-        <div class="panel-head">
-          <h2 id="squad-h">Effectif</h2>
-          <span class="sub"><strong id="present-count">0</strong> présents sur <strong id="total-count">0</strong></span>
-        </div>
-
-        <div id="example-note" class="note" hidden>
-          <span>Effectif d’exemple. Renommez les joueurs et choisissez leurs postes, ou partez d’une liste vide.</span>
-          <button class="btn ghost" data-action="clear">Vider la liste</button>
-        </div>
-
-        <div class="field-row">
-          <span class="field-label" id="size-l">Nombre de joueurs</span>
-          <div class="stepper" role="group" aria-labelledby="size-l">
-            <button data-action="size" data-d="-1" aria-label="Un joueur de moins">−</button>
-            <output id="size-out">0</output>
-            <button data-action="size" data-d="1" aria-label="Un joueur de plus">+</button>
-          </div>
-        </div>
-
-        <div class="seg" role="group" aria-label="Affichage de l’effectif">
-          <button data-action="rmode" data-val="pos">Postes préférés</button>
-          <button data-action="rmode" data-val="lv">Niveaux</button>
-        </div>
-        <p class="hint" id="roster-hint"></p>
-        <div class="legend" aria-label="Postes">
-          <span><i style="background:var(--r-s)"></i>P Passeur</span>
-          <span><i style="background:var(--r-oh)"></i>R4 Réceptionneur-attaquant</span>
-          <span><i style="background:var(--r-mb)"></i>C Central</span>
-          <span><i style="background:var(--r-opp)"></i>Pt Pointu</span>
-          <span><i style="background:var(--r-l)"></i>L Libéro</span>
-        </div>
-
-        <ul id="roster" class="roster"></ul>
-
-        <div class="toolbar">
-          <button class="btn primary" data-action="add">Ajouter un joueur</button>
-          <button class="btn" data-action="allhere">Tout le monde est là</button>
-          <button class="btn ghost" data-action="example">Charger l’exemple</button>
-        </div>
-      </section>
-
-      <section class="panel" aria-labelledby="match-h">
-        <h2 id="match-h">Réglages du match</h2>
-        <div class="setting">
-          <span class="field-label">Postes</span>
-          <div class="seg" data-group="positions">
-            <button data-action="set" data-key="positions" data-val="flex">Souple</button>
-            <button data-action="set" data-key="positions" data-val="strict">Uniquement les postes annoncés</button>
-          </div>
-          <p class="hint" id="pos-hint"></p>
-        </div>
-        <div class="field-row">
-          <span class="field-label" id="sets-l">Nombre de sets</span>
-          <div class="stepper" role="group" aria-labelledby="sets-l">
-            <button data-action="sets" data-d="-1" aria-label="Un set de moins">−</button>
-            <output id="sets-out">3</output>
-            <button data-action="sets" data-d="1" aria-label="Un set de plus">+</button>
-          </div>
-        </div>
-        <div class="setting">
-          <span class="field-label">Rotation du banc</span>
-          <div class="seg" data-group="mode">
-            <button data-action="set" data-key="mode" data-val="best">Six meilleurs</button>
-            <button data-action="set" data-key="mode" data-val="balanced">Équilibrée</button>
-            <button data-action="set" data-key="mode" data-val="equal">Temps de jeu égal</button>
-          </div>
-          <p class="hint" id="mode-hint"></p>
-        </div>
-        <div class="setting">
-          <span class="field-label">Changements à mi-set</span>
-          <div class="seg" data-group="midset">
-            <button data-action="set" data-key="midset" data-val="off">Non</button>
-            <button data-action="set" data-key="midset" data-val="on">Oui, pour équilibrer</button>
-          </div>
-          <p class="hint" id="mid-hint"></p>
-        </div>
-        <div class="setting" id="lock-row">
-          <span class="field-label">Passeur à mi-set</span>
-          <div class="seg" data-group="setterLock">
-            <button data-action="set" data-key="setterLock" data-val="lock">Reste tout le set</button>
-            <button data-action="set" data-key="setterLock" data-val="free">Peut être changé</button>
-          </div>
-        </div>
-      </section>
-
-      <section class="panel" aria-labelledby="backup-h">
-        <div class="panel-head">
-          <h2 id="backup-h">Sauvegarder et transférer</h2>
-        </div>
-        <div class="backup-file">
-          <span class="field-label">Sauvegarde complète</span>
-          <p class="hint">Toutes les équipes 6×6 et 4×4, avec les niveaux et l’historique des matchs, dans un fichier. À faire avant de changer de téléphone ou de vider le navigateur.</p>
-          <div class="toolbar">
-            <button class="btn primary" data-action="backup-save">Enregistrer une sauvegarde</button>
-            <button class="btn" data-action="backup-open">Restaurer une sauvegarde</button>
-            <input type="file" id="backup-file" accept=".json,application/json" class="visually-hidden" tabindex="-1" aria-hidden="true">
-          </div>
-          <div id="backup-confirm" class="bc" hidden>
-            <p class="bc-text"></p>
-            <div class="toolbar">
-              <button class="btn primary" data-action="backup-apply">Remplacer mes équipes</button>
-              <button class="btn ghost" data-action="backup-cancel">Annuler</button>
-            </div>
-          </div>
-          <p id="backup-msg" class="foot" role="status"></p>
-        </div>
-        <p class="hint">L’effectif est enregistré automatiquement sur cet appareil. Pour le transférer sur un autre appareil ou une autre page, copiez-le en texte et collez-le là-bas. Vous pouvez aussi coller une simple liste&nbsp;: un joueur par ligne, par exemple <strong>Inès&nbsp;: P, Pt</strong>. Ajoutez <strong>(absent)</strong> pour les absents.</p>
-        <div class="toolbar">
-          <button class="btn" data-action="export">Copier l’effectif</button>
-        </div>
-        <textarea id="import-box" class="copybox" aria-label="Effectif en texte" placeholder="Inès : P, Pt&#10;Hugo : R4, Pt&#10;Camille : C&#10;Julie : R4 (absent)"></textarea>
-        <div class="toolbar">
-          <button class="btn primary" data-action="import" data-how="replace">Remplacer l’effectif par cette liste</button>
-          <button class="btn" data-action="import" data-how="add">Ajouter à l’effectif</button>
-        </div>
-        <p id="import-msg" class="foot" role="status"></p>
-      </section>
-    </div>
-
-    <!-- DROITE -->
-    <div class="col">
-      <section class="panel" aria-labelledby="form-h">
-        <div class="panel-head">
-          <h2 id="form-h">Formations</h2>
-          <span class="sub">Choisissez-en une ou plusieurs à comparer</span>
-        </div>
-        <p id="status" class="status"></p>
-        <div id="cards" class="cards"></div>
-      </section>
-
-      <div id="lineups" class="lineups"></div>
-    </div>
-  </div>
-  <p class="app-foot">Vos équipes restent sur cet appareil : rien n’est envoyé sur internet. Pensez à faire une sauvegarde de temps en temps.</p>
-</div>
-
-<div id="rot" class="modal modal-top" hidden>
-  <div class="modal-box" role="dialog" aria-modal="true" aria-labelledby="rot-h">
-    <div class="modal-head">
-      <h2 id="rot-h">Aide-mémoire des rotations</h2>
-      <button id="rot-close" class="del" data-action="rot-close" aria-label="Fermer">×</button>
-    </div>
-    <div class="rot-controls">
-      <div class="seg" role="group" aria-label="Système">
-        <button data-action="rot-set" data-key="sys" data-val="5-1">5-1</button>
-        <button data-action="rot-set" data-key="sys" data-val="4-2">4-2</button>
-      </div>
-      <div class="seg" role="group" aria-label="Libéro">
-        <button data-action="rot-set" data-key="lib" data-val="true">Avec libéro</button>
-        <button data-action="rot-set" data-key="lib" data-val="false">Sans libéro</button>
-      </div>
-      <div class="seg" role="group" aria-label="Phase de jeu">
-        <button data-action="rot-set" data-key="phase" data-val="serve">Service</button>
-        <button data-action="rot-set" data-key="phase" data-val="recv">Réception</button>
-        <button data-action="rot-set" data-key="phase" data-val="atk">Attaque</button>
-        <button data-action="rot-set" data-key="phase" data-val="def">Défense</button>
-      </div>
-      <button class="btn" data-action="rot-play" id="rot-play">▶ Enchaîner</button>
-    </div>
-    <div id="rot-tabs" class="tabs rot-tabs" role="tablist" aria-label="Rotations"></div>
-    <p id="rot-names" class="hint" hidden></p>
-    <div class="rot-grid">
-      <div id="rot-court" class="rot-court"></div>
-      <div class="rot-side">
-        <ul id="rot-notes" class="rot-notes"></ul>
-        <div class="legend" aria-label="Légende">
-          <span><i style="background:var(--r-s)"></i>P Passeur</span>
-          <span><i style="background:var(--r-oh)"></i>R4</span>
-          <span><i style="background:var(--r-mb)"></i>C Central</span>
-          <span><i style="background:var(--r-opp)"></i>Pt Pointu</span>
-          <span><i style="background:var(--r-l)"></i>L Libéro</span>
-        </div>
-        <p class="foot">Flèche pointillée&nbsp;: où le joueur va ensuite (en réception, le départ de son élan d’attaque, pas le filet). Le petit numéro blanc est sa position de rotation.</p>
-        <p class="foot">Placements adaptés de <a href="https://github.com/monkeysppp/VBRotations" target="_blank" rel="noopener">VBRotations</a> (Andy Edwards, licence Apache 2.0), base de <a href="https://github.com/napo/rotazionivolley" target="_blank" rel="noopener">rotazionivolley</a>.</p>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div id="q4" class="modal" hidden>
-  <div class="modal-box modal-wide" role="dialog" aria-modal="true" aria-labelledby="q4-h">
-    <div class="modal-head">
-      <h2 id="q4-h">4 contre 4</h2>
-      <button id="q4-close" class="del" data-action="q4-close" aria-label="Fermer">×</button>
-    </div>
-    <p class="hint">Les équipes 4×4 sont indépendantes des équipes 6×6 : autres joueurs, autre nombre, autres présences. Postes : 4 (attaquant gauche), 2 (attaquant droit), Arr (arrière), P (passeur). Le temps de jeu se cumule d’un match à l’autre.</p>
-
-    <section class="teambar q4-teambar" id="team4-bar" aria-label="Équipes 4×4"></section>
-    <div class="q4-grid">
-      <section class="q4-col" aria-labelledby="q4-players-h">
-        <div class="panel-head">
-          <h3 class="q4-h3" id="q4-players-h">Joueurs</h3>
-          <span class="sub"><strong id="q4-present">0</strong> présents sur <strong id="q4-total">0</strong></span>
-        </div>
-        <div class="field-row">
-          <span class="field-label" id="q4-size-l">Nombre de joueurs</span>
-          <div class="stepper" role="group" aria-labelledby="q4-size-l">
-            <button data-action="q4-size" data-d="-1" aria-label="Un joueur de moins">−</button>
-            <output id="q4-size-out">0</output>
-            <button data-action="q4-size" data-d="1" aria-label="Un joueur de plus">+</button>
-          </div>
-        </div>
-        <div class="seg" role="group" aria-label="Affichage de l’équipe">
-          <button data-action="q4-rmode" data-val="pos">Postes préférés</button>
-          <button data-action="q4-rmode" data-val="lv">Niveaux</button>
-        </div>
-        <p class="hint" id="q4-roster-hint"></p>
-        <ul id="q4-roster" class="q4-roster"></ul>
-        <div class="toolbar">
-          <button class="btn primary" data-action="q4-add">Ajouter un joueur</button>
-          <button class="btn" data-action="q4-allhere">Tout le monde est là</button>
-          <button class="btn ghost" data-action="q4-from6">Reprendre l’effectif 6×6</button>
-        </div>
-        <details class="q4-io">
-          <summary>Copier ou coller l’équipe en texte</summary>
-          <p class="hint">Un joueur par ligne, par exemple <strong>Inès&nbsp;: P, 2</strong>. Ajoutez <strong>(absent)</strong> pour les absents.</p>
-          <textarea id="q4-import-box" class="copybox" aria-label="Équipe 4×4 en texte" placeholder="Inès : P, 2&#10;Hugo : 4&#10;Léa : Arr, 4&#10;Julie : 2 (absente)"></textarea>
-          <div class="toolbar">
-            <button class="btn" data-action="q4-export">Copier l’équipe</button>
-            <button class="btn" data-action="q4-import" data-how="replace">Remplacer l’équipe</button>
-            <button class="btn ghost" data-action="q4-import" data-how="add">Ajouter à l’équipe</button>
-          </div>
-        </details>
-        <div class="toolbar">
-          <button class="btn ghost" id="q4-reset" data-action="q4-reset">Remettre les compteurs à zéro</button>
-        </div>
-      </section>
-
-      <section class="q4-col" aria-labelledby="q4-next-h">
-        <h3 class="q4-h3" id="q4-next-h">Prochain match · <span id="q4-matchno">1</span></h3>
-        <div class="field-row">
-          <span class="field-label" id="q4-sets-l">Sets dans ce match</span>
-          <div class="stepper" role="group" aria-labelledby="q4-sets-l">
-            <button data-action="q4-sets" data-d="-1" aria-label="Un set de moins">−</button>
-            <output id="q4-sets-out">3</output>
-            <button data-action="q4-sets" data-d="1" aria-label="Un set de plus">+</button>
-          </div>
-        </div>
-        <div class="setting">
-          <span class="field-label">Postes</span>
-          <div class="seg" role="group" aria-label="Postes en 4×4">
-            <button data-action="q4-mode" data-val="strict">Respecter les postes</button>
-            <button data-action="q4-mode" data-val="twist">Adapter pour le temps de jeu</button>
-          </div>
-          <p class="hint" id="q4-mode-hint"></p>
-        </div>
-        <p id="q4-status" class="status"></p>
-        <div id="q4-plan" class="q4-plan"></div>
-        <div class="toolbar">
-          <button class="btn primary" data-action="q4-validate" id="q4-validate">Valider ce match comme joué</button>
-          <button class="btn" data-action="q4-copy">Copier en texte</button>
-        </div>
-        <p id="q4-msg" class="foot" role="status"></p>
-        <div class="copy-slot" id="q4-copy-slot"></div>
-
-        <h3 class="q4-h3">Matchs joués</h3>
-        <div id="q4-history"></div>
-      </section>
-    </div>
-  </div>
-</div>
-
-<div id="update-toast" class="toast" role="status" hidden>Nouvelle version disponible. <button class="btn" data-action="app-reload">Recharger</button></div>
-
-<script src="app.js"></script>
+<main>
+  <h1>CoCoVoTo</h1>
+  <p>Outils de volley qui fonctionnent dans le navigateur. Vos données restent sur votre appareil.</p>
+  <ul class="apps">
+    <li><a class="app" href="compos-volley/">
+      <img src="compos-volley/icons/icon-192.png" alt="">
+      <div><strong>Compos Volley</strong><span>Effectifs, postes et niveaux, formations 6×6, matchs en 4 contre 4, rotations animées.</span></div>
+    </a></li>
+  </ul>
+  <footer>Pour installer une application sur votre téléphone, ouvrez-la puis utilisez « Sur l’écran d’accueil » (iPhone) ou « Installer l’application » (Android).</footer>
+</main>
 </body>
 </html>
