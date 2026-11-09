@@ -1,80 +1,69 @@
 # Compos Volley
 
-Application web pour préparer les compos de volley : effectifs et postes, niveaux, formations 6×6 (5-1, 5-1 + libéro, 4-2), changements à mi-set, matchs en 4 contre 4 avec équilibrage du temps de jeu, et aide-mémoire des rotations animé.
+Une application pour préparer vos compositions de volley : qui joue, à quel poste, à quel set, et comment tourner.
 
-Elle fonctionne entièrement dans le navigateur : pas de serveur, pas de compte, pas de base de données. Une fois installée sur un téléphone, elle marche aussi sans réseau.
+**Ouvrir l’application : https://alyzei.github.io/CoCoVoTo/compos-volley/**
 
-## Contenu du dossier
+Elle est gratuite, en français, et fonctionne sur téléphone comme sur ordinateur, sans compte. Une fois installée, elle marche aussi sans réseau, par exemple dans un gymnase.
 
-| Fichier | Rôle |
-|---|---|
-| `index.html` | La page de l’application |
-| `styles.css`, `app.js` | L’apparence et le fonctionnement |
-| `manifest.webmanifest` | Nom, icône et couleurs pour l’installation sur téléphone |
-| `sw.js` | Fonctionnement hors ligne et mises à jour |
-| `fonts/` | Les polices, hébergées avec l’application (aucun appel à Google) |
-| `icons/` | Les icônes de l’application |
-| `LICENCES/` | Les licences des éléments repris (voir plus bas) |
-| `.nojekyll` | Indique à GitHub Pages de publier les fichiers tels quels |
+## Ce que vous pouvez faire
 
-## Mettre en ligne sur GitHub Pages (sans ligne de commande)
+### Votre équipe
 
-1. Connectez-vous sur [github.com](https://github.com), puis **New repository**.
-2. Nom : par exemple `compos-volley`. Choisissez **Public** (obligatoire pour GitHub Pages avec un compte gratuit). Cliquez sur **Create repository**.
-3. Sur la page du dépôt vide, cliquez sur **uploading an existing file**.
-4. Glissez **le contenu** du dossier (les fichiers et les dossiers `fonts`, `icons`, `LICENCES`), pas le dossier lui-même. `index.html` doit être à la racine du dépôt.
-   Le fichier caché `.nojekyll` n’apparaît pas toujours dans le Finder ou l’Explorateur : ce n’est pas grave, il est facultatif.
-5. Cliquez sur **Commit changes**.
-6. Allez dans **Settings → Pages**. Sous *Build and deployment*, choisissez **Source : Deploy from a branch**, puis **Branch : main** et **/ (root)**. Cliquez sur **Save**.
-7. Après une ou deux minutes, l’adresse s’affiche en haut de cette page, du type `https://votre-compte.github.io/compos-volley/`.
+- Indiquez qui est **présent** ce jour-là.
+- Notez les **postes préférés** de chaque joueur, par ordre de préférence : passeur, réceptionneur-attaquant (R4), central, pointu, libéro.
+- Donnez un **niveau de 1 à 5** à chaque poste. Le niveau aide à choisir entre plusieurs joueurs.
+- Enregistrez **plusieurs équipes** et passez de l’une à l’autre.
 
-Le dépôt et le site sont publics : n’y mettez jamais de vraies données de joueurs. Les équipes ne sont pas dans les fichiers, elles restent dans le navigateur de chaque entraîneur.
+### Les compos en 6 contre 6
 
-## Installer sur un téléphone
+- Comparez les formations **5-1**, **5-1 avec libéro** et **4-2**, et voyez celle qui convient le mieux aux joueurs présents.
+- Obtenez une compo **set par set**, avec le placement sur le terrain, le banc et les remplaçants conseillés.
+- Choisissez votre priorité : les six meilleurs, une rotation équilibrée ou un temps de jeu égal pour tous.
+- Prévoyez des **changements à mi-set** pour faire jouer tout le monde.
+- Gardez chacun **à ses postes annoncés**, ou laissez l’application adapter si besoin.
+- **Changez un joueur** à la main, et **glissez un set** pour modifier l’ordre.
+- Copiez la compo en texte pour la partager dans le groupe de l’équipe.
 
-- **iPhone / iPad** : ouvrez l’adresse dans **Safari**, touchez **Partager**, puis **Sur l’écran d’accueil**.
-- **Android** : ouvrez l’adresse dans **Chrome**, menu **⋮**, puis **Installer l’application** (ou **Ajouter à l’écran d’accueil**).
+### Les matchs en 4 contre 4
 
-Sur iPhone, utilisez l’application installée plutôt que Safari : Safari efface les données d’un site après 7 jours sans visite, pas l’application installée.
+- Une équipe 4×4 séparée, avec ses propres joueurs et ses postes : attaquant 4, attaquant 2, arrière et passeur.
+- L’application propose qui joue à chaque set et **équilibre le temps de jeu sur plusieurs matchs**. Les absents rattrapent ensuite le temps manqué.
+- Le compteur de sets joués se corrige à la main, par demi-set si besoin.
+
+### L’aide-mémoire des rotations
+
+- Les six rotations en **5-1** et en **4-2**, avec ou sans libéro.
+- Quatre moments du jeu : **service**, **réception**, **attaque** et **défense**. Les joueurs se déplacent à l’écran d’un moment à l’autre.
+- Ouvert depuis une compo, il affiche le nom de vos joueurs.
+
+## Bien démarrer
+
+1. Ouvrez l’application et touchez **Vider la liste** pour remplacer l’équipe d’exemple par la vôtre (ou renommez les joueurs d’exemple).
+2. Ajoutez vos joueurs, leurs postes préférés et, si vous le souhaitez, leurs niveaux.
+3. Marquez qui est **présent**.
+4. Choisissez une ou plusieurs formations et parcourez les sets.
+
+## Installer sur votre téléphone
+
+- **iPhone / iPad** : ouvrez l’application dans **Safari**, touchez **Partager**, puis **Sur l’écran d’accueil**.
+- **Android** : ouvrez l’application dans **Chrome**, menu **⋮**, puis **Installer l’application** (ou **Ajouter à l’écran d’accueil**).
+
+Sur iPhone, utilisez de préférence l’application installée : Safari efface les données d’un site après 7 jours sans visite, ce qui n’arrive pas à l’application installée.
 
 ## Vos données et les sauvegardes
 
-- Les équipes, niveaux et matchs sont enregistrés **sur l’appareil**, dans le navigateur ou l’application installée. Rien n’est envoyé sur internet.
-- Chaque appareil a ses propres données : le téléphone et l’ordinateur ne se synchronisent pas.
-- Dans **Sauvegarder et transférer**, utilisez **Enregistrer une sauvegarde** pour obtenir un fichier `.json` avec toutes vos équipes. Gardez-le en lieu sûr.
-- **Restaurer une sauvegarde** remplace toutes les équipes de l’appareil par celles du fichier. C’est aussi la façon de passer d’un appareil à un autre.
-- Faites une sauvegarde avant de vider le navigateur, de changer de téléphone ou de désinstaller l’application.
+- Vos équipes, les niveaux et l’historique des matchs restent **sur votre appareil**. Rien n’est envoyé sur internet.
+- Chaque appareil garde ses propres données : le téléphone et l’ordinateur ne se synchronisent pas.
+- Dans **Sauvegarder et transférer**, touchez **Enregistrer une sauvegarde** pour obtenir un fichier avec toutes vos équipes. Gardez-le en lieu sûr.
+- **Restaurer une sauvegarde** remet vos équipes sur un nouvel appareil, ou après avoir vidé le navigateur.
+- Pour partager seulement une liste de joueurs, utilisez **Copier l’effectif** puis collez-la sur l’autre appareil.
 
-## Mettre à jour l’application
+## Confidentialité
 
-1. Remplacez les fichiers modifiés dans le dépôt (**Add file → Upload files**, puis **Commit changes**).
-2. Dans `sw.js`, changez la ligne `const VERSION = 'compos-volley-v1';` en `v2`, puis `v3` à la mise à jour suivante, etc. (sur GitHub : ouvrez le fichier, icône crayon, modifiez, **Commit changes**).
-3. À la prochaine ouverture, les téléphones téléchargent la nouvelle version et affichent « Nouvelle version disponible ».
+Pas de compte, pas de publicité, pas de suivi. L’application ne contacte aucun autre site, et les noms et niveaux des joueurs ne quittent jamais votre appareil.
 
-Sans changement de `VERSION`, les téléphones récupèrent quand même les nouveaux fichiers dès qu’ils ont du réseau, mais le changement de version garantit un cache propre.
+## Crédits et licences
 
-## Autres hébergements possibles
-
-Le dossier fonctionne sur n’importe quel hébergement de fichiers statiques en **HTTPS** (obligatoire pour l’installation et le hors ligne) :
-
-- **Votre site WordPress** : déposez le dossier complet via le gestionnaire de fichiers ou le FTP de l’hébergeur (par exemple dans `/compos-volley/`). La médiathèque WordPress ne convient pas, car elle ne garde pas l’arborescence des fichiers.
-- Tout autre hébergeur de sites statiques.
-
-Ouvrir `index.html` directement depuis l’ordinateur (double-clic) fonctionne aussi, mais sans installation ni mode hors ligne.
-
-## Sécurité et confidentialité
-
-- Pas de serveur, pas de compte, pas de traceur, pas de publicité.
-- Les polices sont hébergées avec l’application : aucune adresse IP de visiteur n’est envoyée à Google.
-- Une politique de sécurité du contenu (CSP) empêche la page de charger quoi que ce soit depuis un autre site.
-- Les noms saisis sont toujours affichés comme du texte : ils ne peuvent pas exécuter de code.
-- Les fichiers de sauvegarde sont vérifiés avant d’être restaurés.
-- Protégez votre compte GitHub avec la **double authentification** (Settings → Password and authentication).
-- Si vous ajoutez un nom de domaine personnalisé, vérifiez-le dans GitHub (Settings → Pages → *Verified domains*) pour éviter qu’un tiers ne le récupère.
-- Les données des joueurs (noms, niveaux donnés par l’entraîneur) restent sur l’appareil de l’entraîneur. Si un jour les entraîneurs doivent partager leurs données entre eux, il faudra un serveur, des comptes et une réflexion RGPD (information des joueurs, durée de conservation).
-
-## Licences
-
-- **Code de l’application** : il vous appartient. Sans fichier de licence, il est « tous droits réservés » ; ajoutez une licence (par exemple MIT) si vous voulez permettre à d’autres de le réutiliser.
-- **Placements des rotations** : adaptés de [VBRotations](https://github.com/monkeysppp/VBRotations) d’Andy Edwards, sous licence Apache 2.0 — voir `LICENCES/VBRotations-Apache-2.0.md`. Le crédit figure aussi dans l’aide-mémoire des rotations.
-- **Polices** Barlow Condensed et Figtree : SIL Open Font License 1.1 — voir `LICENCES/`.
+- Placements des rotations adaptés de [VBRotations](https://github.com/monkeysppp/VBRotations) d’Andy Edwards, sous licence Apache 2.0 (voir `LICENCES/VBRotations-Apache-2.0.md`).
+- Polices Barlow Condensed et Figtree, sous SIL Open Font License 1.1 (voir `LICENCES/`).
