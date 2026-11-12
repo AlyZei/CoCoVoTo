@@ -46,7 +46,9 @@ Elle est gratuite, en français, et fonctionne sur téléphone comme sur ordinat
 
 ## Installer sur votre téléphone
 
-- **iPhone / iPad** : ouvrez l’application dans **Safari**, touchez **Partager**, puis **Sur l’écran d’accueil**.
+Ouvrez l’application et touchez **Installer l’application** en haut de la page : elle vous guide pas à pas. Sinon :
+
+- **iPhone / iPad** : ouvrez l’application dans **Safari**, touchez **Partager** (sous iOS 26 : **⋯** à droite de la barre d’adresse, puis **Partager**), puis **Sur l’écran d’accueil** et **Ajouter**. Si le lien s’est ouvert dans WhatsApp, Instagram ou Facebook, ouvrez-le d’abord dans Safari.
 - **Android** : ouvrez l’application dans **Chrome**, menu **⋮**, puis **Installer l’application** (ou **Ajouter à l’écran d’accueil**).
 
 Sur iPhone, utilisez de préférence l’application installée : Safari efface les données d’un site après 7 jours sans visite, ce qui n’arrive pas à l’application installée.

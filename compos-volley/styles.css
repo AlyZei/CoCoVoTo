@@ -329,3 +329,11 @@ body.dragging-set,body.dragging-set *{cursor:grabbing!important}
   .tok-name{font-size:12px}
   .jersey{width:22px;height:22px;font-size:14px}
 }
+.inst-box{max-width:520px}
+.inst-body{display:grid;gap:12px}
+.inst-body p{margin:0}
+.inst-steps{margin:0;padding-left:22px;display:grid;gap:10px;font-size:15px}
+.inst-steps b{font-weight:700}
+.inst-ico{display:inline-block;border:1.5px solid currentColor;border-radius:4px;padding:0 4px;font-size:12px;line-height:16px}
+.inst-url{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.inst-url code{overflow-wrap:anywhere;background:var(--surface-2);border:1px solid var(--line);border-radius:6px;padding:4px 8px;font-size:13px}

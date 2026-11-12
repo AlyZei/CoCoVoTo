@@ -1,7 +1,7 @@
 /* Compos Volley — service worker (fonctionnement hors ligne).
    Après chaque mise à jour des fichiers sur le site, changez VERSION (v1 → v2…)
    pour que les téléphones téléchargent la nouvelle version. */
-const VERSION = 'compos-volley-v2';
+const VERSION = 'compos-volley-v3';
 const ASSETS = [
   './',
   './index.html',

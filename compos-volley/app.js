@@ -1628,3 +1628,101 @@ if('serviceWorker' in navigator && location.protocol !== 'file:'){
     navigator.serviceWorker.register('./sw.js').catch(() => {});
   });
 }
+
+/* ---------- installation sur l’écran d’accueil ----------
+   Android, Chrome et Edge proposent une vraie fenêtre d’installation (beforeinstallprompt).
+   iPhone et iPad n’en ont pas : le bouton affiche les étapes à suivre dans Safari. */
+let installPrompt = null;
+const isStandalone = () => (window.matchMedia && matchMedia('(display-mode: standalone)').matches) || navigator.standalone === true;
+const UA = navigator.userAgent;
+const isIOS = /iPad|iPhone|iPod/.test(UA) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+const isAndroid = /Android/i.test(UA);
+const inAppBrowser = /FBAN|FBAV|FB_IAB|Instagram|LinkedInApp|Snapchat|Line\/|MicroMessenger|GSA\/|WhatsApp|Twitter/i.test(UA);
+const isSamsung = /SamsungBrowser/i.test(UA);
+const iosVersion = (() => { const m = UA.match(/OS (\d+)_/); return m ? +m[1] : 0; })();
+const iosNonSafari = isIOS && /CriOS|FxiOS|EdgiOS/.test(UA);
+
+function updateInstallButton(){ $('#install-btn').hidden = isStandalone(); }
+window.addEventListener('beforeinstallprompt', e => { e.preventDefault(); installPrompt = e; updateInstallButton(); });
+window.addEventListener('appinstalled', () => {
+  installPrompt = null; $('#install-btn').hidden = true; closeInst();
+});
+
+const step = (t) => `<li>${t}</li>`;
+function installHelp(){
+  const url = location.href.split('#')[0];
+  const linkBox = `<p class="hint">Adresse de l’application :</p><p class="inst-url"><code>${esc(url)}</code> <button class="btn" data-action="inst-copy">Copier</button></p>`;
+  if(inAppBrowser) return `
+    <p>Cette page est ouverte dans le navigateur intégré d’une autre application (WhatsApp, Instagram, Facebook…). L’installation n’y est pas possible.</p>
+    <ol class="inst-steps">
+      ${step(`Touchez le menu <b>⋯</b> ou <b>⋮</b> de cette fenêtre, puis <b>Ouvrir dans ${isIOS ? 'Safari' : 'le navigateur'}</b>.`)}
+      ${step(`Dans ${isIOS ? 'Safari' : 'Chrome'}, touchez à nouveau <b>Installer l’application</b> en haut de la page.`)}
+    </ol>${linkBox}`;
+  if(isIOS){
+    const share = iosVersion >= 26
+      ? `Touchez <b>⋯</b> à droite de la barre d’adresse, puis <b>Partager</b>.`
+      : `Touchez le bouton <b>Partager</b> <span class="inst-ico" aria-hidden="true">⬆︎</span> (le carré avec une flèche), ${/iPad/.test(UA) ? 'en haut de l’écran' : 'en bas de l’écran'}.`;
+    return `
+      ${iosNonSafari ? `<p>Sur iPhone, l’installation est la plus fiable depuis <b>Safari</b>. Si les étapes ci-dessous ne marchent pas ici, ouvrez l’adresse dans Safari.</p>` : ''}
+      <ol class="inst-steps">
+        ${step(share)}
+        ${step(`Faites défiler et touchez <b>Sur l’écran d’accueil</b>. S’il n’apparaît pas, touchez <b>Modifier les actions</b> en bas de la liste pour l’ajouter.`)}
+        ${iosVersion >= 26 ? step(`Laissez <b>Ouvrir comme app web</b> activé.`) : ''}
+        ${step(`Touchez <b>Ajouter</b>. L’icône Compos Volley apparaît sur l’écran d’accueil.`)}
+      </ol>
+      <p class="hint">Ouvrez ensuite l’application depuis cette icône : vos équipes y sont mieux protégées que dans Safari, qui efface les données d’un site après 7 jours sans visite.</p>
+      <p class="hint">L’icône installée a ses propres données : refaites votre équipe dedans, ou transférez-la avec <b>Copier l’effectif</b> ou une sauvegarde.</p>`;
+  }
+  if(isAndroid) return `
+    <ol class="inst-steps">
+      ${isSamsung
+        ? step(`Touchez le menu <b>≡</b> en bas de l’écran, puis <b>Ajouter la page à</b> et <b>Écran d’accueil</b>.`)
+        : step(`Touchez le menu <b>⋮</b> en haut à droite de Chrome.`) + step(`Touchez <b>Installer l’application</b> (ou <b>Ajouter à l’écran d’accueil</b>, puis <b>Installer</b>).`)}
+      ${step(`Confirmez. L’icône Compos Volley apparaît sur l’écran d’accueil.`)}
+    </ol>
+    <p class="hint">Si le menu ne propose rien, l’application est peut-être déjà installée : cherchez l’icône Compos Volley parmi vos applications.</p>`;
+  return `
+    <ul class="inst-steps">
+      ${step(`<b>Chrome ou Edge</b> : cliquez sur l’icône d’installation à droite de la barre d’adresse, ou menu <b>⋮</b> → <b>Installer Compos Volley</b>.`)}
+      ${step(`<b>Safari sur Mac</b> : menu <b>Fichier</b> → <b>Ajouter au Dock</b>.`)}
+      ${step(`<b>Sur téléphone</b> : ouvrez cette adresse sur le téléphone et touchez <b>Installer l’application</b>.`)}
+    </ul>${linkBox}`;
+}
+let instReturnFocus = null;
+function openInst(){
+  instReturnFocus = document.activeElement;
+  $('#inst-body').innerHTML = installHelp();
+  $('#inst').hidden = false;
+  document.body.style.overflow = 'hidden';
+  $('#inst-close').focus();
+}
+function closeInst(){
+  if($('#inst').hidden) return;
+  $('#inst').hidden = true;
+  document.body.style.overflow = '';
+  if(instReturnFocus && instReturnFocus.focus) instReturnFocus.focus();
+}
+async function doInstall(){
+  if(installPrompt){
+    const p = installPrompt; installPrompt = null;
+    try{ await p.prompt(); await p.userChoice; }catch(e){ openInst(); return; }
+    updateInstallButton();
+    return;
+  }
+  openInst();
+}
+document.addEventListener('click', e => {
+  const b = e.target.closest('[data-action]');
+  if(e.target === $('#inst')){ closeInst(); return; }
+  if(!b) return;
+  if(b.dataset.action === 'install') doInstall();
+  else if(b.dataset.action === 'inst-close') closeInst();
+  else if(b.dataset.action === 'inst-copy'){
+    const url = location.href.split('#')[0];
+    const done = () => { b.textContent = 'Copié'; setTimeout(() => { if(b.isConnected) b.textContent = 'Copier'; }, 1500); };
+    try{ navigator.clipboard.writeText(url).then(done, () => { const r = document.createRange(); r.selectNodeContents(b.previousElementSibling); const s = getSelection(); s.removeAllRanges(); s.addRange(r); }); }
+    catch(err){}
+  }
+});
+document.addEventListener('keydown', e => { if(e.key === 'Escape') closeInst(); });
+updateInstallButton();
