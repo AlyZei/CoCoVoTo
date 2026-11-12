@@ -21,7 +21,9 @@ Plus de détails dans le [guide de Compos Volley](compos-volley/README.md).
 
 Une application installée s’ouvre comme une application classique, en plein écran, et fonctionne même sans réseau.
 
-- **iPhone / iPad** : ouvrez l’application dans **Safari**, touchez **Partager**, puis **Sur l’écran d’accueil**.
+Ouvrez l’application et touchez **Installer l’application** en haut de la page : elle vous guide pas à pas. Sinon :
+
+- **iPhone / iPad** : ouvrez l’application dans **Safari**, touchez **Partager** (sous iOS 26 : **⋯** à droite de la barre d’adresse, puis **Partager**), puis **Sur l’écran d’accueil** et **Ajouter**. Si le lien s’est ouvert dans WhatsApp, Instagram ou Facebook, ouvrez-le d’abord dans Safari.
 - **Android** : ouvrez l’application dans **Chrome**, menu **⋮**, puis **Installer l’application** (ou **Ajouter à l’écran d’accueil**).
 
 ## Vos données
