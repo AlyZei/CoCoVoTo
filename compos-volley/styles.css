@@ -345,8 +345,6 @@ body.dragging-set,body.dragging-set *{cursor:grabbing!important}
 .nav-btn svg circle{fill:currentColor;stroke:none}
 .nav-btn:hover{border-color:var(--muted)}
 .nav-btn.is-current{background:var(--ink);color:var(--surface);border-color:var(--ink)}
-.nav-rot{border-color:var(--accent);box-shadow:0 0 0 2px var(--accent) inset}
-.nav-rot svg{color:var(--court)}
 .toolbar.util{margin-left:auto}
 .masthead .lede{flex-basis:100%}
 @media (max-width:560px){
