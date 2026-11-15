@@ -35,7 +35,7 @@ Elle est gratuite, en français, et fonctionne sur téléphone comme sur ordinat
 
 - Les six rotations en **5-1** et en **4-2**, avec ou sans libéro.
 - Quatre moments du jeu : **service**, **réception**, **attaque** et **défense**. Les joueurs se déplacent à l’écran d’un moment à l’autre.
-- Par défaut, en 5-1, le passeur part **au plus près de la cible** à chaque rotation, comme le recommandent les guides d’entraîneur ; les placements classiques restent disponibles.
+- Par défaut, en 5-1, le passeur part **au plus près de la cible** à chaque rotation, comme le recommandent les guides d’entraîneur, avec les deux R4 et le libéro en réception (une option permet de faire réceptionner le pointu) ; les placements classiques restent disponibles.
 - Ouvert depuis une compo, il affiche le nom de vos joueurs.
 - Accessible directement depuis le bouton **Rotations** en haut de l’application.
 
