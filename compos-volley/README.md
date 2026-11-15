@@ -35,7 +35,7 @@ Elle est gratuite, en français, et fonctionne sur téléphone comme sur ordinat
 
 - Les six rotations en **5-1** et en **4-2**, avec ou sans libéro.
 - Quatre moments du jeu : **service**, **réception**, **attaque** et **défense**. Les joueurs se déplacent à l’écran d’un moment à l’autre.
-- Par défaut, en 5-1, le **passeur part de son poste** ; le R4 avant réceptionne en 5, le R4 arrière en 6 et le libéro en 1 chaque fois que la règle des chevauchements le permet, et le pointu ne réceptionne pas. Le passeur en 1 et le passeur en 4 ont des variantes : en P1, le R4 avant recule réceptionner en 1 devant le passeur (par défaut), réception à 2 ou pointu en réception ; en P4, le R4 avant recule réceptionner en 5 (par défaut) ou le passeur reste au centre. Les placements classiques restent disponibles.
+- Par défaut, en 5-1, le **passeur part de son poste** ; le R4 avant réceptionne en 5, le R4 arrière en 6 et le libéro en 1 chaque fois que la règle des chevauchements le permet, et le pointu ne réceptionne pas. En P1, le R4 avant recule réceptionner en 1, juste devant le passeur ; en P4, il recule réceptionner en 5. Les placements classiques restent disponibles.
 - Ouvert depuis une compo, il affiche le nom de vos joueurs.
 - Accessible directement depuis le bouton **Rotations** en haut de l’application.
 

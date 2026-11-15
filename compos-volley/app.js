@@ -596,18 +596,10 @@ const VB = {"base":{"1":{"s":[350,300],"h1":[350,50],"m1":[225,50],"o":[100,50],
    ne réceptionne pas. Quand la règle des chevauchements l’interdit, l’exception est expliquée dans les notes.
    Mêmes unités et mêmes clés que VB ; les autres phases viennent de VB. */
 const VB_SETTER = {"receive":{"6":{"s":[290,75],"h1":[370,290],"m1":[400,40],"o":[260,30],"h2":[90,260],"m2":[220,310]},"5":{"s":[230,75],"h1":[250,310],"m1":[380,290],"o":[410,40],"h2":[95,260],"m2":[50,35]},"4":{"s":[20,25],"h1":[225,310],"m1":[360,290],"o":[435,370],"h2":[100,260],"m2":[65,45]},"3":{"s":[280,30],"h1":[90,250],"m1":[220,310],"o":[300,90],"h2":[370,290],"m2":[390,40]},"2":{"s":[320,30],"h1":[95,250],"m1":[35,40],"o":[60,95],"h2":[225,310],"m2":[370,290]},"1":{"s":[430,225],"h1":[380,195],"m1":[230,40],"o":[50,40],"h2":[90,290],"m2":[250,320]}},"set":{"6":{"s":[300,50],"h1":[225,300],"m1":[220,140],"o":[430,160],"h2":[30,160],"m2":[90,330]},"5":{"s":[300,50],"h1":[225,300],"m1":[90,330],"o":[430,160],"h2":[30,160],"m2":[220,140]},"4":{"s":[300,50],"h1":[225,300],"m1":[90,340],"o":[380,330],"h2":[30,160],"m2":[220,140]},"3":{"s":[300,50],"h1":[30,160],"m1":[80,340],"o":[380,300],"h2":[225,310],"m2":[220,140]},"2":{"s":[300,50],"h1":[30,160],"m1":[220,140],"o":[80,330],"h2":[225,300],"m2":[370,340]},"1":{"s":[300,50],"h1":[430,160],"m1":[220,140],"o":[30,160],"h2":[225,300],"m2":[90,330]}}};
-/* Variantes proposées pour certaines rotations (clé = zone du passeur) : la première est celle par défaut. */
-const VB_OPTS = {"1":{"label":"Passeur en 1","def":"r1","choices":[{"id":"r1","label":"R4 avant en 1","data":{"receive":{"1":{"s":[430,225],"h1":[380,195],"m1":[230,40],"o":[50,40],"h2":[90,290],"m2":[250,320]}},"set":{"1":{"s":[300,50],"h1":[430,160],"m1":[220,140],"o":[30,160],"h2":[225,300],"m2":[90,330]}}}},{"id":"two","label":"Réception à 2","data":{"receive":{"1":{"s":[400,80],"h1":[425,30],"m1":[230,40],"o":[60,40],"h2":[120,290],"m2":[320,300]}},"set":{"1":{"s":[300,50],"h1":[430,160],"m1":[220,140],"o":[30,160],"h2":[225,300],"m2":[90,330]}}}},{"id":"opp","label":"Pointu en réception","data":{"receive":{"1":{"s":[400,80],"h1":[425,30],"m1":[230,40],"o":[75,250],"h2":[180,330],"m2":[330,300]}},"set":{"1":{"s":[300,50],"h1":[430,160],"m1":[220,140],"o":[30,160],"h2":[225,300],"m2":[90,330]}}}}]},"4":{"label":"Passeur en 4","def":"r5","choices":[{"id":"r5","label":"R4 avant en 5","data":{"receive":{"4":{"s":[20,25],"h1":[225,310],"m1":[360,290],"o":[435,370],"h2":[100,260],"m2":[65,45]}},"set":{"4":{"s":[300,50],"h1":[225,300],"m1":[90,340],"o":[380,330],"h2":[30,160],"m2":[220,140]}}}},{"id":"post","label":"Passeur au centre","data":{"receive":{"4":{"s":[280,30],"h1":[90,290],"m1":[225,310],"o":[435,370],"h2":[380,260],"m2":[340,45]}},"set":{"4":{"s":[300,50],"h1":[225,300],"m1":[80,340],"o":[380,330],"h2":[430,160],"m2":[210,140]}}}}]}};
 const VB_IDS = ['s','h1','m1','o','h2','m2'];      // slot order = zones 1..6 when the setter is in 1
 let rotPlace = 'setter';
 try{ const v = localStorage.getItem('compos-volley-placements'); if(v === 'classic' || v === 'setter') rotPlace = v; }catch(e){}
-const ROT_OPTS = {}; Object.entries(VB_OPTS).forEach(([k, o]) => ROT_OPTS[k] = o.def);
-try{
-  const saved = JSON.parse(localStorage.getItem('compos-volley-variantes') || '{}');
-  Object.entries(saved).forEach(([k, v]) => { if(VB_OPTS[k] && VB_OPTS[k].choices.some(c => c.id === v)) ROT_OPTS[k] = v; });
-  const old = localStorage.getItem('compos-volley-p1'); if(!saved['1'] && (old === 'two' || old === 'opp')) ROT_OPTS['1'] = old;
-}catch(e){}
-const ROT = {opts:ROT_OPTS, place:rotPlace, sys:'5-1', lib:true, phase:'recv', t:0, names:null, namesSys:null, namesLib:false, src:''};
+const ROT = {place:rotPlace, sys:'5-1', lib:true, phase:'recv', t:0, names:null, namesSys:null, namesLib:false, src:''};
 const BASE_ROLES = {'5-1':['S','OH','MB','OPP','OH','MB'], '4-2':['S','OH','MB','S','OH','MB']};
 const isFront = z => z>=2 && z<=4;
 const zoneOf = (slot,t) => (((slot - t) % 6) + 6) % 6 + 1;
@@ -623,9 +615,7 @@ function rotLayout(sys, lib, phase, t){
   VB_IDS.forEach((id,i) => idAtZone[zoneOf(i,tk)] = id);
   const [from, to] = PHASE_DATA[phase];
   const src = ph => (ROT.place === 'setter' && VB_SETTER[ph]) ? VB_SETTER[ph] : VB[ph];
-  const variant = () => { const o = VB_OPTS[key]; return o && ROT.place === 'setter' ? o.choices.find(c => c.id === ROT.opts[key]) : null; };
-  const table = ph => { const v = variant(); return (v && v.data[ph]) ? v.data[ph] : src(ph); };
-  const pt = (ph, id) => { const v = table(ph)[key][id]; return [v[0]/50, v[1]/50]; };
+  const pt = (ph, id) => { const v = src(ph)[key][id]; return [v[0]/50, v[1]/50]; };
 
   const ps = BASE_ROLES[sys].map((role,slot) => {
     const zone = zoneOf(slot,t), front = isFront(zone), id = idAtZone[zone];
@@ -739,16 +729,10 @@ function rotNotes(ps, server, liberoOff){
       const L = ROT.lib ? 'le libéro' : 'le central arrière';
       const sz = zoneOf(0, ROT.t);
       out.push(({
-        1: ({
-          two: `Passeur en 1${NB}: il se cache juste derrière le R4 avant, au filet à droite, et n’a qu’un pas à faire. Réception à deux${NB}: le R4 arrière à gauche et ${L} à droite. Le R4 avant reste au filet et attaque à droite.`,
-          r1: `Passeur en 1${NB}: le R4 avant (zone 2) recule réceptionner en 1, juste devant le passeur. Le passeur se cache derrière lui, le long de la ligne de côté, aussi près du filet que la règle le permet. R4 arrière en 5 et ${L} en 6 (en zone 5, le R4 arrière doit rester à gauche du ${ROT.lib ? 'libéro' : 'central'}). Le pointu et le central restent au filet.`,
-          opp: `Passeur en 1${NB}: il se cache juste derrière le R4 avant, au filet à droite. Le pointu réceptionne en 5, le R4 arrière en 6 et ${L} en 1. En attaque, pointu à gauche et R4 à droite.`
-        })[ROT.opts[1]],
+        1: `Passeur en 1${NB}: le R4 avant (zone 2) recule réceptionner en 1, juste devant le passeur. Le passeur se cache derrière lui, le long de la ligne de côté, aussi près du filet que la règle le permet. R4 arrière en 5 et ${L} en 6 (en zone 5, le R4 arrière doit rester à gauche du ${ROT.lib ? 'libéro' : 'central'}). Le pointu et le central restent au filet.`,
         6: `Passeur en 6${NB}: juste derrière le pointu, au filet. R4 avant en 5, ${L} en 6. Le R4 arrière est en zone 1 et doit rester le plus à droite des arrières${NB}: il réceptionne en 1.`,
         5: `Passeur en 5${NB}: il monte au centre du terrain avant, à 1,5${NB}m de la cible (la règle lui demande seulement d’être derrière le central avant et à gauche du R4 arrière). R4 avant en 5, R4 arrière en 6, ${L} en 1.`,
-        4: ROT.opts[4] === 'post'
-          ? `Passeur en 4 (à l’avant)${NB}: au filet, à son poste. Le R4 avant doit rester à sa droite${NB}: il réceptionne en 1 et attaque à droite. R4 arrière en 5, ${L} en 6${NB}; le pointu se tient au fond à droite, hors réception.`
-          : `Passeur en 4 (à l’avant)${NB}: le R4 de la zone 2 recule réceptionner en 5. Pour rester en règle, le central et le passeur se serrent au filet à gauche (le passeur doit rester à gauche du central)${NB}: le passeur a donc tout le filet à traverser. R4 arrière en 6, ${L} en 1${NB}; le pointu se tient au fond à droite, hors réception.`,
+        4: `Passeur en 4 (à l’avant)${NB}: le R4 de la zone 2 recule réceptionner en 5. Pour rester en règle, le central et le passeur se serrent au filet à gauche (le passeur doit rester à gauche du central)${NB}: le passeur a donc tout le filet à traverser. R4 arrière en 6, ${L} en 1${NB}; le pointu se tient au fond à droite, hors réception.`,
         3: `Passeur en 3${NB}: au filet, à son poste${NB}; le pointu se cache derrière lui. R4 avant en 5, ${L} en 6. Le R4 arrière est en zone 1 et doit rester le plus à droite des arrières${NB}: il réceptionne en 1.`,
         2: `Passeur en 2${NB}: déjà à son poste. R4 avant en 5, R4 arrière en 6, ${L} en 1. Le central avant se range au filet à gauche et le pointu se cache juste derrière lui.`
       })[sz]);
@@ -770,11 +754,6 @@ function renderRot(){
     const v = b.dataset.val, k = b.dataset.key;
     b.setAttribute('aria-pressed', String(k==='lib' ? String(ROT.lib)===v : ROT[k]===v));
   });
-  { const k = ROT.sys === '5-1' ? zoneOf(0, ROT.t) : [0,3].map(sl => zoneOf(sl, ROT.t)).find(isFront);
-    const o = VB_OPTS[k], seg = $('#rot-recv-seg');
-    seg.hidden = !(o && ROT.place === 'setter');
-    if(o) seg.innerHTML = `<span class="seg-l">${o.label}</span>` + o.choices.map(c => `<button data-action="rot-opt" data-k="${k}" data-val="${c.id}" aria-pressed="${ROT.opts[k] === c.id}">${c.label}</button>`).join('');
-  }
   $('#rot-tabs').innerHTML = rotTabs();
   const {ps, server, liberoOff} = rotSVG();
   $('#rot-notes').innerHTML = rotNotes(ps, server, liberoOff);
@@ -1435,7 +1414,6 @@ document.addEventListener('click', e => {
     }
     case 'rot-close': closeRot(); break;
     case 'rot-play': playRot(); break;
-    case 'rot-opt': stopRotPlay(); ROT.opts[b.dataset.k] = b.dataset.val; try{ localStorage.setItem('compos-volley-variantes', JSON.stringify(ROT.opts)); }catch(e){} renderRot(); break;
     case 'rot-set': if(b.dataset.key === 'place'){ try{ localStorage.setItem('compos-volley-placements', b.dataset.val); }catch(e){} }  stopRotPlay(); if(b.dataset.key==='lib') ROT.lib = b.dataset.val==='true'; else ROT[b.dataset.key] = b.dataset.val; renderRot(); break;
     case 'rot-t': stopRotPlay(); ROT.t = +b.dataset.n; renderRot(); break;
     case 'rot-nonames': ROT.names = null; renderRot(); break;
