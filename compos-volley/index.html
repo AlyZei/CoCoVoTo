@@ -25,12 +25,16 @@
 <div class="wrap">
   <header class="masthead">
     <h1>Compos Volley<span class="ball" aria-hidden="true"></span></h1>
-    <div class="toolbar">
+    <nav class="appnav" aria-label="Sections">
+      <a class="nav-btn is-current" href="#" aria-current="page"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="6" cy="8" r="2"/><circle cx="12" cy="8" r="2"/><circle cx="18" cy="8" r="2"/><circle cx="6" cy="16" r="2"/><circle cx="12" cy="16" r="2"/><circle cx="18" cy="16" r="2"/></svg><span>Compos 6×6</span></a>
+      <button class="nav-btn" data-action="q4-open"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="8" cy="8" r="2.2"/><circle cx="16" cy="8" r="2.2"/><circle cx="8" cy="16" r="2.2"/><circle cx="16" cy="16" r="2.2"/></svg><span>4 contre 4</span></button>
+      <button class="nav-btn nav-rot" data-action="rot-open"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><circle cx="8" cy="14" r="1.8"/><circle cx="16" cy="14" r="1.8"/><circle cx="12" cy="18.5" r="1.8"/><path d="M8 11.2 L12 6.8 L16 11.2"/></svg><span>Rotations</span></button>
+    </nav>
+    <div class="toolbar util">
       <button class="btn primary" id="install-btn" data-action="install" hidden>Installer l’application</button>
-      <button class="btn" data-action="q4-open">4 contre 4</button>
-      <button class="btn" data-action="rot-open">Aide-mémoire des rotations</button>
+      <button class="btn ghost" data-action="tuto-open">Tutoriel</button>
     </div>
-    <p>Indiquez qui est là et où chacun aime jouer, puis comparez les formations et la rotation du banc set par set.</p>
+    <p class="lede">Indiquez qui est là et où chacun aime jouer, puis comparez les formations et la rotation du banc set par set.</p>
   </header>
   <section class="teambar" id="team6-bar" aria-label="Équipes 6×6"></section>
 
@@ -174,13 +178,17 @@
   <p class="app-foot">Vos équipes restent sur cet appareil : rien n’est envoyé sur internet. Pensez à faire une sauvegarde de temps en temps.</p>
 </div>
 
-<div id="rot" class="modal modal-top" hidden>
+<div id="rot" class="modal modal-top modal-rot" hidden>
   <div class="modal-box" role="dialog" aria-modal="true" aria-labelledby="rot-h">
     <div class="modal-head">
-      <h2 id="rot-h">Aide-mémoire des rotations</h2>
+      <h2 id="rot-h">Rotations</h2>
       <button id="rot-close" class="del" data-action="rot-close" aria-label="Fermer">×</button>
     </div>
     <div class="rot-controls">
+      <div class="seg" role="group" aria-label="Placements">
+        <button data-action="rot-set" data-key="place" data-val="setter">Passeur à son poste</button>
+        <button data-action="rot-set" data-key="place" data-val="classic">Placements classiques</button>
+      </div>
       <div class="seg" role="group" aria-label="Système">
         <button data-action="rot-set" data-key="sys" data-val="5-1">5-1</button>
         <button data-action="rot-set" data-key="sys" data-val="4-2">4-2</button>
@@ -211,7 +219,27 @@
           <span><i style="background:var(--r-l)"></i>L Libéro</span>
         </div>
         <p class="foot">Flèche pointillée&nbsp;: où le joueur va ensuite (en réception, le départ de son élan d’attaque, pas le filet). Le petit numéro blanc est sa position de rotation.</p>
-        <p class="foot">Placements repris de <a href="https://github.com/napo/rotazionivolley" target="_blank" rel="noopener">rotazionivolley</a> (Maurizio Napolitano, version de 2019 sous licence Apache 2.0), lui-même basé sur <a href="https://github.com/monkeysppp/VBRotations" target="_blank" rel="noopener">VBRotations</a> (Andy Edwards, licence Apache 2.0).</p>
+        <p class="foot">«&nbsp;Passeur à son poste&nbsp;»&nbsp;: réception et départs d’attaque conçus pour Compos Volley (passeur à son poste, R4 avant en 5, R4 arrière en 6, pointu hors réception, dans la limite de la règle des chevauchements).</p>
+        <p class="foot">Placements classiques, service et défense repris de <a href="https://github.com/napo/rotazionivolley" target="_blank" rel="noopener">rotazionivolley</a> (Maurizio Napolitano, version de 2019 sous licence Apache 2.0), lui-même basé sur <a href="https://github.com/monkeysppp/VBRotations" target="_blank" rel="noopener">VBRotations</a> (Andy Edwards, licence Apache 2.0).</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="tuto" class="tuto" hidden>
+  <div class="tuto-card" role="dialog" aria-modal="true" aria-labelledby="tuto-h">
+    <div class="tuto-top">
+      <span class="tuto-count" id="tuto-count"></span>
+      <button class="del" data-action="tuto-close" aria-label="Fermer le tutoriel">×</button>
+    </div>
+    <h2 id="tuto-h" class="tuto-h"></h2>
+    <p id="tuto-text" class="tuto-text"></p>
+    <div class="tuto-dots" id="tuto-dots" aria-hidden="true"></div>
+    <div class="tuto-nav">
+      <label class="tuto-never"><input type="checkbox" id="tuto-never"> Ne plus afficher au démarrage</label>
+      <div class="toolbar">
+        <button class="btn ghost" data-action="tuto-prev" id="tuto-prev">Précédent</button>
+        <button class="btn primary" data-action="tuto-next" id="tuto-next">Suivant</button>
       </div>
     </div>
   </div>

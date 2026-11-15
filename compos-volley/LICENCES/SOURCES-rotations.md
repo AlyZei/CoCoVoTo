@@ -9,6 +9,8 @@ Les 180 positions de joueurs utilisées par l’aide-mémoire des rotations (`co
 
 Maurizio Napolitano a corrigé 25 des 180 positions (réception en P1 à P5, et départs d’attaque). Les 155 autres sont identiques à VBRotations.
 
+Les placements « passeur à son poste » (phases *receive* et *set*, `const VB_SETTER` et `const VB_P1` dans `app.js`) ne viennent d’aucun de ces projets : ils ont été conçus pour Compos Volley d’après les principes de réception en 5-1 décrits dans les guides d’entraîneur (passeur à son poste, R4 avant en 5, R4 arrière en 6, pointu hors réception, dans la limite de la règle des chevauchements). Les placements de service et de défense restent ceux de rotazionivolley.
+
 Modifications apportées dans Compos Volley : positions conservées comme données (50 px = 1 m), libellés en français, remplacement du central arrière par le libéro, formations 4-2 dérivées des rotations 5-1 où le passeur avant occupe la même zone.
 
 Aucun des deux projets ne fournit de fichier NOTICE ni de mention de copyright dans les fichiers concernés. Le texte de la licence Apache 2.0 se trouve dans `VBRotations-Apache-2.0.md`.

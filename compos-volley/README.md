@@ -35,9 +35,13 @@ Elle est gratuite, en français, et fonctionne sur téléphone comme sur ordinat
 
 - Les six rotations en **5-1** et en **4-2**, avec ou sans libéro.
 - Quatre moments du jeu : **service**, **réception**, **attaque** et **défense**. Les joueurs se déplacent à l’écran d’un moment à l’autre.
+- Par défaut, en 5-1, le **passeur part de son poste** ; le R4 avant réceptionne en 5, le R4 arrière en 6 et le libéro en 1 chaque fois que la règle des chevauchements le permet, et le pointu ne réceptionne pas. En P1, le R4 avant recule réceptionner en 1, juste devant le passeur ; en P4, il recule réceptionner en 5. Les placements classiques restent disponibles.
 - Ouvert depuis une compo, il affiche le nom de vos joueurs.
+- Accessible directement depuis le bouton **Rotations** en haut de l’application.
 
 ## Bien démarrer
+
+Un court tutoriel s’affiche à l’ouverture. Cochez « Ne plus afficher au démarrage » pour le masquer ; il reste disponible avec le bouton **Tutoriel** en haut de la page.
 
 1. Ouvrez l’application et touchez **Vider la liste** pour remplacer l’équipe d’exemple par la vôtre (ou renommez les joueurs d’exemple).
 2. Ajoutez vos joueurs, leurs postes préférés et, si vous le souhaitez, leurs niveaux.
