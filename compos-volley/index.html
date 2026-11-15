@@ -186,12 +186,14 @@
     </div>
     <div class="rot-controls">
       <div class="seg" role="group" aria-label="Placements">
-        <button data-action="rot-set" data-key="place" data-val="setter">Passeur au plus près</button>
+        <button data-action="rot-set" data-key="place" data-val="setter">Passeur à son poste</button>
         <button data-action="rot-set" data-key="place" data-val="classic">Placements classiques</button>
       </div>
-      <div class="seg" role="group" aria-label="Qui réceptionne" id="rot-recv-seg">
-        <button data-action="rot-set" data-key="recv" data-val="oh" id="rot-recv-oh">R4 ×2 + libéro en réception</button>
-        <button data-action="rot-set" data-key="recv" data-val="opp">Le pointu peut réceptionner</button>
+      <div class="seg seg-p1" role="group" aria-label="Passeur en 1" id="rot-recv-seg">
+        <span class="seg-l">Passeur en 1</span>
+        <button data-action="rot-set" data-key="p1" data-val="two">Réception à 2</button>
+        <button data-action="rot-set" data-key="p1" data-val="three">Réception à 3 (passeur au fond)</button>
+        <button data-action="rot-set" data-key="p1" data-val="opp">Pointu en réception</button>
       </div>
       <div class="seg" role="group" aria-label="Système">
         <button data-action="rot-set" data-key="sys" data-val="5-1">5-1</button>
@@ -223,7 +225,7 @@
           <span><i style="background:var(--r-l)"></i>L Libéro</span>
         </div>
         <p class="foot">Flèche pointillée&nbsp;: où le joueur va ensuite (en réception, le départ de son élan d’attaque, pas le filet). Le petit numéro blanc est sa position de rotation.</p>
-        <p class="foot">«&nbsp;Passeur au plus près&nbsp;»&nbsp;: réception et départs d’attaque conçus pour Compos Volley, le passeur se cachant légalement au plus près de la cible.</p>
+        <p class="foot">«&nbsp;Passeur à son poste&nbsp;»&nbsp;: réception et départs d’attaque conçus pour Compos Volley (passeur à son poste, R4 avant en 5, R4 arrière en 6, pointu hors réception, dans la limite de la règle des chevauchements).</p>
         <p class="foot">Placements classiques, service et défense repris de <a href="https://github.com/napo/rotazionivolley" target="_blank" rel="noopener">rotazionivolley</a> (Maurizio Napolitano, version de 2019 sous licence Apache 2.0), lui-même basé sur <a href="https://github.com/monkeysppp/VBRotations" target="_blank" rel="noopener">VBRotations</a> (Andy Edwards, licence Apache 2.0).</p>
       </div>
     </div>
