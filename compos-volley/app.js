@@ -591,8 +591,14 @@ function parseSquad(text){
    middle, 4-2 derived from the 5-1 rotation with the same front-row setter zone.
    Units: 50 px = 1 m; x 0 = left sideline (zones 4/5), y 0 = net. Keys "1".."6" = setter zone. */
 const VB = {"base":{"1":{"s":[350,300],"h1":[350,50],"m1":[225,50],"o":[100,50],"h2":[100,300],"m2":[225,350]},"2":{"s":[350,50],"h1":[225,50],"m1":[100,50],"o":[100,300],"h2":[225,350],"m2":[350,300]},"3":{"s":[225,50],"h1":[100,50],"m1":[100,300],"o":[225,350],"h2":[350,300],"m2":[350,50]},"4":{"s":[100,50],"h1":[100,300],"m1":[225,350],"o":[350,300],"h2":[350,50],"m2":[225,50]},"5":{"s":[100,300],"h1":[225,350],"m1":[350,300],"o":[350,50],"h2":[225,50],"m2":[100,50]},"6":{"s":[225,350],"h1":[350,300],"m1":[350,50],"o":[225,50],"h2":[100,50],"m2":[100,300]}},"serve":{"1":{"s":[350,475],"h1":[290,50],"m1":[225,50],"o":[160,50],"h2":[100,300],"m2":[225,350]},"2":{"s":[290,50],"h1":[225,50],"m1":[160,50],"o":[100,300],"h2":[225,350],"m2":[350,475]},"3":{"s":[225,50],"h1":[160,50],"m1":[100,300],"o":[225,350],"h2":[350,475],"m2":[290,50]},"4":{"s":[160,50],"h1":[100,300],"m1":[225,350],"o":[350,475],"h2":[290,50],"m2":[225,50]},"5":{"s":[100,300],"h1":[225,350],"m1":[350,475],"o":[290,50],"h2":[225,50],"m2":[160,50]},"6":{"s":[225,350],"h1":[350,475],"m1":[290,50],"o":[225,50],"h2":[160,50],"m2":[100,300]}},"switchServe":{"1":{"s":[350,300],"h1":[100,50],"m1":[225,50],"o":[350,50],"h2":[225,350],"m2":[100,300]},"2":{"s":[350,50],"h1":[100,50],"m1":[225,50],"o":[350,300],"h2":[225,350],"m2":[100,300]},"3":{"s":[350,50],"h1":[100,50],"m1":[100,300],"o":[350,300],"h2":[225,350],"m2":[225,50]},"4":{"s":[350,50],"h1":[225,350],"m1":[100,300],"o":[350,300],"h2":[100,50],"m2":[225,50]},"5":{"s":[350,300],"h1":[225,350],"m1":[100,300],"o":[350,50],"h2":[100,50],"m2":[225,50]},"6":{"s":[350,300],"h1":[225,350],"m1":[225,50],"o":[350,50],"h2":[100,50],"m2":[100,300]}},"receive":{"1":{"s":[400,385],"h1":[370,300],"m1":[240,140],"o":[50,150],"h2":[100,300],"m2":[230,330]},"2":{"s":[350,50],"h1":[100,300],"m1":[20,80],"o":[130,380],"h2":[225,350],"m2":[350,300]},"3":{"s":[300,50],"h1":[100,300],"m1":[225,350],"o":[300,380],"h2":[350,300],"m2":[370,100]},"4":{"s":[30,30],"h1":[225,350],"m1":[350,300],"o":[380,380],"h2":[100,300],"m2":[70,70]},"5":{"s":[120,140],"h1":[225,350],"m1":[350,300],"o":[420,50],"h2":[100,300],"m2":[70,50]},"6":{"s":[255,85],"h1":[350,300],"m1":[350,70],"o":[280,30],"h2":[100,300],"m2":[225,350]}},"set":{"1":{"s":[300,50],"h1":[450,150],"m1":[225,150],"o":[0,150],"h2":[225,350],"m2":[125,300]},"2":{"s":[300,50],"h1":[0,150],"m1":[225,150],"o":[400,250],"h2":[225,300],"m2":[100,250]},"3":{"s":[300,50],"h1":[0,150],"m1":[125,300],"o":[400,250],"h2":[225,280],"m2":[225,150]},"4":{"s":[300,50],"h1":[225,250],"m1":[150,300],"o":[400,250],"h2":[0,150],"m2":[225,150]},"5":{"s":[300,50],"h1":[225,350],"m1":[100,250],"o":[450,150],"h2":[0,150],"m2":[225,150]},"6":{"s":[300,50],"h1":[225,250],"m1":[225,150],"o":[450,150],"h2":[0,150],"m2":[150,250]}}};
+/* Placements « passeur au plus près » (réception et départs d’attaque), conçus pour Compos Volley :
+   le passeur se cache légalement au plus près de la cible, les autres s’organisent autour.
+   Mêmes unités et mêmes clés que VB. Les autres phases viennent de VB. */
+const VB_SETTER = {"receive":{"1":{"s":[400,80],"h1":[425,30],"m1":[230,40],"o":[75,250],"h2":[180,330],"m2":[330,300]},"6":{"s":[290,80],"h1":[350,290],"m1":[410,40],"o":[270,30],"h2":[80,240],"m2":[190,310]},"5":{"s":[140,80],"h1":[165,320],"m1":[360,300],"o":[415,40],"h2":[250,230],"m2":[150,30]},"4":{"s":[220,30],"h1":[80,270],"m1":[220,310],"o":[400,340],"h2":[370,240],"m2":[270,40]},"3":{"s":[270,30],"h1":[80,240],"m1":[200,315],"o":[300,90],"h2":[360,300],"m2":[380,40]},"2":{"s":[330,30],"h1":[90,240],"m1":[40,40],"o":[70,380],"h2":[230,315],"m2":[370,300]}},"set":{"1":{"s":[300,50],"h1":[430,160],"m1":[220,140],"o":[30,160],"h2":[225,300],"m2":[90,330]},"6":{"s":[300,50],"h1":[225,300],"m1":[220,140],"o":[430,160],"h2":[30,160],"m2":[90,330]},"5":{"s":[300,50],"h1":[225,300],"m1":[90,330],"o":[430,160],"h2":[30,160],"m2":[220,140]},"4":{"s":[300,50],"h1":[225,300],"m1":[80,340],"o":[380,330],"h2":[430,160],"m2":[210,140]},"3":{"s":[300,50],"h1":[30,160],"m1":[80,340],"o":[380,300],"h2":[225,310],"m2":[220,140]},"2":{"s":[300,50],"h1":[30,160],"m1":[220,140],"o":[80,330],"h2":[225,300],"m2":[370,340]}}};
 const VB_IDS = ['s','h1','m1','o','h2','m2'];      // slot order = zones 1..6 when the setter is in 1
-const ROT = {sys:'5-1', lib:true, phase:'recv', t:0, names:null, namesSys:null, namesLib:false, src:''};
+let rotPlace = 'setter';
+try{ const v = localStorage.getItem('compos-volley-placements'); if(v === 'classic' || v === 'setter') rotPlace = v; }catch(e){}
+const ROT = {place:rotPlace, sys:'5-1', lib:true, phase:'recv', t:0, names:null, namesSys:null, namesLib:false, src:''};
 const BASE_ROLES = {'5-1':['S','OH','MB','OPP','OH','MB'], '4-2':['S','OH','MB','S','OH','MB']};
 const isFront = z => z>=2 && z<=4;
 const zoneOf = (slot,t) => (((slot - t) % 6) + 6) % 6 + 1;
@@ -607,7 +613,8 @@ function rotLayout(sys, lib, phase, t){
   const idAtZone = {};
   VB_IDS.forEach((id,i) => idAtZone[zoneOf(i,tk)] = id);
   const [from, to] = PHASE_DATA[phase];
-  const pt = (ph, id) => { const v = VB[ph][key][id]; return [v[0]/50, v[1]/50]; };
+  const src = ph => (ROT.place === 'setter' && VB_SETTER[ph]) ? VB_SETTER[ph] : VB[ph];
+  const pt = (ph, id) => { const v = src(ph)[key][id]; return [v[0]/50, v[1]/50]; };
 
   const ps = BASE_ROLES[sys].map((role,slot) => {
     const zone = zoneOf(slot,t), front = isFront(zone), id = idAtZone[zone];
@@ -708,7 +715,27 @@ function rotNotes(ps, server, liberoOff){
   if(ROT.phase==='serve'){
     out.push(`Le joueur en position 1 (${server.label}${ROT.names && ROT.namesSys===ROT.sys ? ', ' + esc(ROT.names[server.nameIdx]||'') : ''}) sert. Jusqu’à la frappe du service, tout le monde respecte l’ordre de rotation. Ensuite chacun rejoint son poste de défense (flèches).`);
   } else if(ROT.phase==='recv'){
-    out.push(`Trois réceptionneurs${NB}: les deux R4 et ${ROT.lib ? 'le libéro' : 'le central arrière'}. Chaque R4 réceptionne du côté où il va attaquer. Le passeur et les joueurs qui ne réceptionnent pas se regroupent pour libérer la zone de réception. Pendant la réception, chacun rejoint son point de départ d’élan pour attaquer (flèches), et le passeur va à la cible.`);
+    const runOf = place => {
+      const save = ROT.place; ROT.place = place;
+      const lay = rotLayout(ROT.sys, ROT.lib, 'recv', ROT.t); ROT.place = save;
+      const s = lay.ps.find(p => p.kind === 'setter');
+      return s && s.d ? Math.hypot(s.d[0] - s.s[0], s.d[1] - s.s[1]) : 0;
+    };
+    const m = v => v.toFixed(1).replace('.', ',') + NB + 'm';
+    const other = ROT.place === 'setter' ? 'classic' : 'setter';
+    out.push(`Course du passeur jusqu’à la cible${NB}: <b>${m(runOf(ROT.place))}</b> (${other === 'classic' ? 'placements classiques' : 'passeur au plus près'}${NB}: ${m(runOf(other))}).`);
+    if(ROT.place === 'setter' && ROT.sys === '5-1'){
+      const L = ROT.lib ? 'le libéro' : 'le central arrière';
+      const sz = zoneOf(0, ROT.t);
+      out.push(({
+        1: `Passeur en 1${NB}: il se cache juste derrière le R4 avant, au filet à droite. Ce R4 ne réceptionne pas${NB}; le pointu (en 4) réceptionne à gauche avec le R4 arrière et ${L}. En attaque, pointu à gauche et R4 à droite.`,
+        6: `Passeur en 6${NB}: il se place juste derrière le pointu, au filet au centre-droit, et n’a qu’un pas à faire. Réception${NB}: les deux R4 et ${L}.`,
+        5: `Passeur en 5${NB}: il se cache derrière le central avant, au filet à gauche, aussi près du centre que la règle le permet. C’est la rotation où sa course reste la plus longue.`,
+        4: `Passeur en 4 (à l’avant)${NB}: il se place au filet au centre, à gauche du central. Le R4 de la zone 2 réceptionne à droite et attaque à droite${NB}; le R4 arrière réceptionne à gauche avec ${L}.`,
+        3: `Passeur en 3${NB}: il est déjà au filet, juste à gauche de la cible${NB}; le pointu arrière se cache derrière lui. Réception${NB}: les deux R4 et ${L}.`,
+        2: `Passeur en 2${NB}: il est déjà à la cible. Le central avant se range au filet à gauche pour laisser le R4 réceptionner à gauche${NB}; le pointu arrière se cache au fond à gauche.`
+      })[sz]);
+    } else out.push(`Trois réceptionneurs${NB}: les deux R4 et ${ROT.lib ? 'le libéro' : 'le central arrière'}. Chaque R4 réceptionne du côté où il va attaquer. Le passeur et les joueurs qui ne réceptionnent pas se regroupent pour libérer la zone de réception. Pendant la réception, chacun rejoint son point de départ d’élan pour attaquer (flèches), et le passeur va à la cible.`);
     out.push(`Placements conformes aux chevauchements${NB}: à l’avant 4-3-2 de gauche à droite, à l’arrière 5-6-1, chaque arrière derrière son avant (4/5, 3/6, 2/1). Les petits numéros sont les positions de rotation.`);
   } else if(ROT.phase==='atk'){
     out.push(`Position d’attaque${NB}: chaque attaquant est à son point de départ d’élan, les arrières derrière la ligne des 3 m, et le passeur à la cible. Les joueurs qui n’attaquent pas se rapprochent pour couvrir l’attaquant.`);
@@ -1342,6 +1369,7 @@ document.addEventListener('click', e => {
   const b = e.target.closest('[data-action]'); if(!b) return;
   const a = b.dataset.action;
   if(a.startsWith('q4-') && q4Click(b)) return;
+  if(a.startsWith('tuto-')) return;
   if(a.startsWith('team-') && teamClick(b)) return;
   const row = b.closest('[data-id]');
   const p = row && state.players.find(x => x.id===row.dataset.id);
@@ -1385,7 +1413,7 @@ document.addEventListener('click', e => {
     }
     case 'rot-close': closeRot(); break;
     case 'rot-play': playRot(); break;
-    case 'rot-set': stopRotPlay(); if(b.dataset.key==='lib') ROT.lib = b.dataset.val==='true'; else ROT[b.dataset.key] = b.dataset.val; renderRot(); break;
+    case 'rot-set': if(b.dataset.key === 'place'){ try{ localStorage.setItem('compos-volley-placements', b.dataset.val); }catch(e){} } stopRotPlay(); if(b.dataset.key==='lib') ROT.lib = b.dataset.val==='true'; else ROT[b.dataset.key] = b.dataset.val; renderRot(); break;
     case 'rot-t': stopRotPlay(); ROT.t = +b.dataset.n; renderRot(); break;
     case 'rot-nonames': ROT.names = null; renderRot(); break;
     case 'view': views[b.dataset.key] = b.dataset.val; renderResults(); break;
@@ -1726,3 +1754,84 @@ document.addEventListener('click', e => {
 });
 document.addEventListener('keydown', e => { if(e.key === 'Escape') closeInst(); });
 updateInstallButton();
+
+/* ---------- tutoriel au démarrage ----------
+   S’affiche à chaque ouverture tant que « Ne plus afficher au démarrage » n’est pas coché
+   ou que le tour n’a pas été terminé. Le bouton « Tutoriel » le relance. */
+const TUTO_KEY = 'compos-volley-tutoriel';
+const tutoOff = () => { try{ return localStorage.getItem(TUTO_KEY) === 'off'; }catch(e){ return false; } };
+const setTutoOff = off => { try{ off ? localStorage.setItem(TUTO_KEY, 'off') : localStorage.removeItem(TUTO_KEY); }catch(e){} };
+const panelOf = sel => { const el = document.querySelector(sel); return el ? (el.closest('.panel') || el) : null; };
+const hasBackup = () => !!document.querySelector('[data-action="backup-save"]');
+const TUTO = [
+  {t: 'Bienvenue dans Compos Volley', x: 'Préparez vos matchs en quelques minutes : qui joue, à quel poste, à quel set, et comment tourner. Ce petit tour prend une minute.'},
+  {t: 'Votre équipe', x: 'Choisissez ou créez une équipe dans la barre « Équipe 6×6 ». Dans « Effectif », marquez qui est présent et touchez les postes préférés de chacun, dans l’ordre. L’onglet « Niveaux » permet de noter chaque joueur de 1 à 5 par poste.', el: () => panelOf('#squad-h')},
+  {t: 'Les réglages du match', x: 'Réglez le nombre de sets et votre priorité : les six meilleurs, une rotation équilibrée ou un temps de jeu égal. Vous pouvez aussi prévoir des changements à mi-set.', el: () => panelOf('#match-h')},
+  {t: 'Les compos', x: 'Comparez 5-1, 5-1 avec libéro et 4-2, puis lisez chaque compo set par set. Glissez un onglet de set pour changer l’ordre, et touchez « Modifier les joueurs » pour changer quelqu’un.', el: () => panelOf('#form-h')},
+  {t: '4 contre 4', x: 'Une équipe séparée pour le 4 contre 4. L’application équilibre le temps de jeu d’un match à l’autre, absents compris.', el: () => document.querySelector('.appnav [data-action="q4-open"]')},
+  {t: 'Les rotations', x: 'Les six rotations en 5-1 et 4-2, en service, réception, attaque et défense, avec les déplacements animés. Par défaut, le passeur part au plus près de la cible.', el: () => document.querySelector('.appnav .nav-rot')},
+  {t: 'Vos données', x: () => hasBackup()
+      ? 'Vos équipes restent sur cet appareil, rien n’est envoyé sur internet. Faites une sauvegarde de temps en temps, et installez l’application sur votre téléphone pour l’avoir même sans réseau. Ce tutoriel reste disponible avec le bouton « Tutoriel » en haut.'
+      : 'Vos équipes restent dans ce navigateur, rien n’est envoyé sur internet. « Copier l’effectif » permet de les transférer. Ce tutoriel reste disponible avec le bouton « Tutoriel » en haut.',
+   el: () => panelOf('#backup-h')}
+];
+let tutoStep = 0, tutoFocus = null, tutoReturn = null;
+function tutoClearFocus(){ if(tutoFocus){ tutoFocus.classList.remove('tour-focus'); tutoFocus = null; } }
+function renderTuto(){
+  const st = TUTO[tutoStep];
+  $('#tuto-count').textContent = `${tutoStep + 1} / ${TUTO.length}`;
+  $('#tuto-h').textContent = st.t;
+  $('#tuto-text').textContent = typeof st.x === 'function' ? st.x() : st.x;
+  $('#tuto-dots').innerHTML = TUTO.map((_, i) => `<i class="${i === tutoStep ? 'on' : ''}"></i>`).join('');
+  $('#tuto-prev').disabled = tutoStep === 0;
+  $('#tuto-next').textContent = tutoStep === TUTO.length - 1 ? 'C’est parti' : 'Suivant';
+  tutoClearFocus();
+  const el = st.el && st.el();
+  $('#tuto').classList.toggle('has-focus', !!el);
+  if(el){
+    tutoFocus = el; el.classList.add('tour-focus');
+    const reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+    el.scrollIntoView({block: el.offsetHeight > innerHeight * 0.55 ? 'start' : 'center', behavior: reduce ? 'auto' : 'smooth'});
+  } else window.scrollTo({top: 0});
+}
+function openTuto(){
+  tutoReturn = document.activeElement;
+  tutoStep = 0;
+  $('#tuto-never').checked = tutoOff();
+  $('#tuto').hidden = false;
+  renderTuto();
+  $('#tuto-next').focus();
+}
+function closeTuto(done){
+  if($('#tuto').hidden) return;
+  if(done || $('#tuto-never').checked) setTutoOff(true);
+  tutoClearFocus();
+  $('#tuto').hidden = true;
+  if(tutoReturn && tutoReturn.focus && tutoReturn !== document.body) tutoReturn.focus();
+}
+document.addEventListener('click', e => {
+  const b = e.target.closest('[data-action]'); if(!b) return;
+  switch(b.dataset.action){
+    case 'tuto-open': openTuto(); break;
+    case 'tuto-close': closeTuto(false); break;
+    case 'tuto-prev': if(tutoStep > 0){ tutoStep--; renderTuto(); } break;
+    case 'tuto-next': if(tutoStep < TUTO.length - 1){ tutoStep++; renderTuto(); } else closeTuto(true); break;
+  }
+});
+document.addEventListener('change', e => { if(e.target.id === 'tuto-never') setTutoOff(e.target.checked); });
+document.addEventListener('keydown', e => {
+  if($('#tuto').hidden) return;
+  if(e.key === 'Escape') closeTuto(false);
+  else if(e.key === 'ArrowRight' && !e.target.closest('input')) $('#tuto-next').click();
+  else if(e.key === 'ArrowLeft' && !e.target.closest('input')) $('#tuto-prev').click();
+});
+
+/* ---------- liens directs : #rotations et #quatre ---------- */
+function openFromHash(){
+  const h = location.hash;
+  if(h === '#rotations' && $('#rot').hidden) openRot();
+  else if(h === '#quatre' && $('#q4').hidden) openQ4();
+}
+window.addEventListener('hashchange', openFromHash);
+if(location.hash === '#rotations' || location.hash === '#quatre') openFromHash();
+else if(!tutoOff()) setTimeout(openTuto, 350);

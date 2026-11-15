@@ -35,9 +35,13 @@ Elle est gratuite, en français, et fonctionne sur téléphone comme sur ordinat
 
 - Les six rotations en **5-1** et en **4-2**, avec ou sans libéro.
 - Quatre moments du jeu : **service**, **réception**, **attaque** et **défense**. Les joueurs se déplacent à l’écran d’un moment à l’autre.
+- Par défaut, en 5-1, le passeur part **au plus près de la cible** à chaque rotation, comme le recommandent les guides d’entraîneur ; les placements classiques restent disponibles.
 - Ouvert depuis une compo, il affiche le nom de vos joueurs.
+- Accessible directement depuis le bouton **Rotations** en haut de l’application.
 
 ## Bien démarrer
+
+Un court tutoriel s’affiche à l’ouverture. Cochez « Ne plus afficher au démarrage » pour le masquer ; il reste disponible avec le bouton **Tutoriel** en haut de la page.
 
 1. Ouvrez l’application et touchez **Vider la liste** pour remplacer l’équipe d’exemple par la vôtre (ou renommez les joueurs d’exemple).
 2. Ajoutez vos joueurs, leurs postes préférés et, si vous le souhaitez, leurs niveaux.

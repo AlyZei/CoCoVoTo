@@ -337,3 +337,46 @@ body.dragging-set,body.dragging-set *{cursor:grabbing!important}
 .inst-ico{display:inline-block;border:1.5px solid currentColor;border-radius:4px;padding:0 4px;font-size:12px;line-height:16px}
 .inst-url{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
 .inst-url code{overflow-wrap:anywhere;background:var(--surface-2);border:1px solid var(--line);border-radius:6px;padding:4px 8px;font-size:13px}
+
+/* navigation principale */
+.appnav{display:flex;flex-wrap:wrap;gap:8px}
+.nav-btn{display:inline-flex;align-items:center;gap:8px;border:1.5px solid var(--line);background:var(--surface);color:var(--ink);border-radius:999px;padding:8px 16px 8px 12px;font:inherit;font-weight:700;font-size:14px;text-decoration:none;cursor:pointer}
+.nav-btn svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.nav-btn svg circle{fill:currentColor;stroke:none}
+.nav-btn:hover{border-color:var(--muted)}
+.nav-btn.is-current{background:var(--ink);color:var(--surface);border-color:var(--ink)}
+.nav-rot{border-color:var(--accent);box-shadow:0 0 0 2px var(--accent) inset}
+.nav-rot svg{color:var(--court)}
+.toolbar.util{margin-left:auto}
+.masthead .lede{flex-basis:100%}
+@media (max-width:560px){
+  .appnav{width:100%;display:grid;grid-template-columns:repeat(3,minmax(0,1fr))}
+  .nav-btn{flex-direction:column;gap:3px;padding:8px 4px;border-radius:12px;font-size:12.5px;text-align:center;justify-content:center}
+  .toolbar.util{margin-left:0}
+}
+/* fenêtre des rotations : plus grande, plein écran sur téléphone */
+.modal-rot .modal-box{max-width:1000px}
+.modal-rot .rot-svg{max-width:600px}
+.modal-rot .rot-grid{grid-template-columns:minmax(0,1.5fr) minmax(0,1fr)}
+@media (max-width:700px){
+  .modal-rot{padding:0}
+  .modal-rot .modal-box{min-height:100%;border-radius:0;border:0;padding:14px max(14px,env(safe-area-inset-right,0px)) 24px max(14px,env(safe-area-inset-left,0px));padding-top:max(14px,env(safe-area-inset-top,0px))}
+  .modal-rot .rot-grid{grid-template-columns:minmax(0,1fr)}
+}
+/* tutoriel */
+.tuto{position:fixed;inset:0;z-index:70;display:flex;align-items:center;justify-content:center;padding:16px;padding-bottom:max(16px,env(safe-area-inset-bottom,0px));background:rgb(6 10 20 / .55);pointer-events:auto}
+.tuto[hidden],.modal[hidden]{display:none}
+.tuto.has-focus{background:transparent;align-items:flex-end;pointer-events:none}
+.tuto-card{pointer-events:auto;background:var(--surface);color:var(--ink);border:1px solid var(--line);border-radius:14px;box-shadow:0 18px 50px rgb(0 0 0 / .35);width:100%;max-width:440px;padding:16px 18px;display:grid;gap:10px}
+.tuto-top{display:flex;justify-content:space-between;align-items:center}
+.tuto-count{font-size:12px;font-weight:700;color:var(--muted);letter-spacing:.06em}
+.tuto-h{font-family:var(--f-display);font-weight:700;text-transform:uppercase;letter-spacing:.03em;font-size:22px;margin:0;line-height:1.1}
+.tuto-text{margin:0;font-size:14.5px}
+.tuto-dots{display:flex;gap:5px}
+.tuto-dots i{width:7px;height:7px;border-radius:50%;background:var(--line)}
+.tuto-dots i.on{background:var(--accent);width:18px;border-radius:4px}
+.tuto-nav{display:flex;flex-wrap:wrap;gap:8px 12px;align-items:center;justify-content:space-between}
+.tuto-never{display:inline-flex;gap:6px;align-items:center;font-size:12.5px;color:var(--muted);cursor:pointer}
+.tour-focus{scroll-margin-top:16px;position:relative;z-index:65;border-radius:12px;box-shadow:0 0 0 3px var(--accent),0 0 0 9999px rgb(6 10 20 / .55)!important}
+@media (prefers-reduced-motion:no-preference){.tuto-card{animation:tuto-in .25s ease both}}
+@keyframes tuto-in{from{transform:translateY(8px);opacity:0}to{transform:none;opacity:1}}
