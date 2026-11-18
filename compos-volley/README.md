@@ -24,6 +24,7 @@ Elle est gratuite, en français, et fonctionne sur téléphone comme sur ordinat
 - Gardez chacun **à ses postes annoncés**, ou laissez l’application adapter si besoin.
 - **Changez un joueur** à la main, et **glissez un set** pour modifier l’ordre.
 - Copiez la compo en texte pour la partager dans le groupe de l’équipe.
+- Après le match, touchez **Valider ce match** : les sets joués s’ajoutent à chaque joueur. Les compos suivantes font davantage jouer ceux qui ont moins joué, absents compris. Les compteurs se corrigent à la main, par demi-set.
 
 ### Les matchs en 4 contre 4
 

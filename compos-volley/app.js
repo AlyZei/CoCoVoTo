@@ -39,7 +39,7 @@ function examplePlayers(){
     ['Julie',['OH'],false],['Antoine',['MB','OH']]
   ].map(([name,pos,present=true]) => ({id:uid(), name, pos, present}));
 }
-function exampleState(){ return {example:true, positions:'flex', sets:3, mode:'balanced', midset:'off', setterLock:'lock', selected:null, players:examplePlayers()}; }
+function exampleState(){ return {example:true, positions:'flex', sets:3, mode:'balanced', midset:'off', setterLock:'lock', histBal:'on', selected:null, players:examplePlayers()}; }
 function load(){
   try{
     const s = JSON.parse(localStorage.getItem(KEY));
@@ -57,7 +57,7 @@ function load(){
    the active 4×4 team's data is read through g4(). Older single-squad saves (KEY) are migrated
    once into the first team of each list and left in place untouched. */
 const LIB_KEY = 'vb-compos-equipes-v1';
-function blank6(){ return {example:false, positions:'flex', sets:3, mode:'balanced', midset:'off', setterLock:'lock', selected:null, players:[]}; }
+function blank6(){ return {example:false, positions:'flex', sets:3, mode:'balanced', midset:'off', setterLock:'lock', histBal:'on', selected:null, players:[]}; }
 function blank4(){ return {sets:3, mode:'twist', history:[], adj:{}, overrides:{}, players:[], noMB:true}; }
 function norm6(s){
   if(!Array.isArray(s.players)) s.players = [];
@@ -66,6 +66,7 @@ function norm6(s){
   if(!s.midset) s.midset = 'off';
   if(!s.setterLock) s.setterLock = 'lock';
   if(!s.sets) s.sets = 3;
+  if(s.histBal !== 'off') s.histBal = 'on';
   return s;
 }
 function loadLib(){
@@ -175,12 +176,46 @@ function getConfigs(){
    the exact rotation spot of an on-court player at the halfway point (one change per spot).
    The libero stays; the setter stays too unless the user unlocks it.
    `played` counts sets, or half-sets when mid-set swaps are on. */
+/* ---------- sets joués en 6×6 (cumul des matchs validés) ----------
+   state.hist6 : matchs validés {date, cfg, sets, half, present, played:{id: sets}} ;
+   state.adj6 : corrections manuelles {id: sets}. Tout se compte par demi-set. */
+const half6 = v => Math.round(v * 2) / 2;
+const fmt6 = v => String(half6(v)).replace('.', ',');
+const gap6 = v => (Math.abs(v) < 0.05 ? '0' : (v > 0 ? '+' : '−') + Math.abs(v).toFixed(1).replace('.', ','));
+function totals6(){
+  const t = {};
+  (state.hist6 || []).forEach(m => Object.entries(m.played || {}).forEach(([id, v]) => t[id] = (t[id] || 0) + v));
+  Object.entries(state.adj6 || {}).forEach(([id, v]) => t[id] = (t[id] || 0) + v);
+  return t;
+}
+function setPlayed6(id, total){
+  state.adj6 = state.adj6 || {};
+  const now = totals6()[id] || 0;
+  const adj = half6(Math.max(0, total) - (now - (state.adj6[id] || 0)));
+  if(adj) state.adj6[id] = adj; else delete state.adj6[id];
+}
+function playedInPlan(plan, pr){
+  const out = {};
+  plan.sets.forEach(st => {
+    const parts = st.end ? [st.start, st.end] : [st.start];
+    parts.forEach(mp => mp.forEach(i => { const id = pr[i].id; out[id] = (out[id] || 0) + 1 / parts.length; }));
+  });
+  return out;
+}
+const hasHistory6 = () => (state.hist6 || []).length > 0 || Object.keys(state.adj6 || {}).length > 0;
+
 function buildPlan(c, pr){
   const w = MODE_W[state.mode] ?? 0;
   const half = state.midset==='on';
   const unit = half ? 2 : 1;
   const m = c.slots.length;
   const played = pr.map(() => 0);
+  /* avance prise lors des matchs précédents (en sets ou demi-sets) : ceux qui ont moins joué passent devant */
+  const bias = pr.map(() => 0);
+  if(w && state.histBal !== 'off' && hasHistory6()){
+    const t = totals6(), v = pr.map(p => t[p.id] || 0), mn = Math.min(...v);
+    v.forEach((x, i) => bias[i] = (x - mn) * unit);
+  }
   const sets = [];
   const jit = (i,k) => w ? 0.001*((i*7 + k*5) % pr.length) : 0;
   const idx = id => pr.findIndex(p => p.id===id);
@@ -189,7 +224,7 @@ function buildPlan(c, pr){
     const pS = {}, pE = {};
     Object.entries(pin.start || {}).forEach(([s,id]) => { const i = idx(id); if(i >= 0) pS[s] = i; });
     Object.entries(pin.end || {}).forEach(([s,id]) => { const i = idx(id); if(i >= 0) pE[s] = i; });
-    const base = (i,s) => cost(pr[i], c.slots[s].role) + w*played[i]/unit + jit(i,k);
+    const base = (i,s) => cost(pr[i], c.slots[s].role) + w*(played[i]+bias[i])/unit + jit(i,k);
     let r = assign(pr.length, m, (i,s) => s in pS ? (pS[s]===i ? 0 : Infinity) : base(i,s));
     let pinError = false;
     if(!isFinite(r.total)){ pinError = true; r = assign(pr.length, m, base); Object.keys(pE).forEach(x => delete pE[x]); }
@@ -203,9 +238,9 @@ function buildPlan(c, pr){
     const endCost = (j,s) => {
       const cd = cand[j], sl = c.slots[s];
       if(s in pE) return (cd.pi===pE[s] && (cd.own===s || cd.own<0)) ? 0 : Infinity;
-      if(cd.own >= 0) return cd.own===s ? cost(pr[cd.pi], sl.role) + w*played[cd.pi]/unit : Infinity;
+      if(cd.own >= 0) return cd.own===s ? cost(pr[cd.pi], sl.role) + w*(played[cd.pi]+bias[cd.pi])/unit : Infinity;
       if(locked(sl)) return Infinity;
-      return cost(pr[cd.pi], sl.role) + w*played[cd.pi]/unit + SWAP + jit(cd.pi,k);
+      return cost(pr[cd.pi], sl.role) + w*(played[cd.pi]+bias[cd.pi])/unit + SWAP + jit(cd.pi,k);
     };
     let r2 = assign(cand.length, m, endCost);
     if(!isFinite(r2.total)){ pinError = true; Object.keys(pE).forEach(x => delete pE[x]); r2 = assign(cand.length, m, endCost); }
@@ -257,6 +292,33 @@ function renderRoster(){
   $('#present-count').textContent = present().length;
   $('#example-note').hidden = !state.example;
 }
+const cfgName = key => ({'5-1':'5-1', '5-1+L':'5-1 + libéro', '4-2':'4-2'})[key] || key;
+function renderT6(){
+  const tot = totals6(), all = state.players, hist = state.hist6 || [];
+  const avg = all.length ? all.reduce((a, p) => a + (tot[p.id] || 0), 0) / all.length : 0;
+  $('#t6-sub').textContent = hist.length ? plural(hist.length, 'match validé', 'matchs validés') : 'Aucun match validé';
+  $('#t6-list').innerHTML = all.length ? all.map(p => {
+    const v = tot[p.id] || 0, gap = v - avg;
+    return `<li class="t6-row ${p.present ? '' : 'is-absent'}" data-t6id="${p.id}">
+      <span class="t6-name">${esc(displayName(p))}${p.present ? '' : ' <span class="t6-abs">absent</span>'}</span>
+      <span class="q4-count">
+        <button class="mini-btn" data-action="t6-adj" data-d="-0.5" aria-label="Un demi-set de moins pour ${esc(displayName(p))}">−</button>
+        <input class="q4-num t6-num" id="t6c-${p.id}" inputmode="decimal" value="${fmt6(v)}" title="Sets joués (par demi-set)" aria-label="Sets joués par ${esc(displayName(p))}" autocomplete="off">
+        <button class="mini-btn" data-action="t6-adj" data-d="0.5" aria-label="Un demi-set de plus pour ${esc(displayName(p))}">+</button>
+        <span class="q4-gap ${gap < -0.5 ? 'neg' : gap > 0.5 ? 'pos' : ''}" title="Écart avec la moyenne de l’équipe">${gap6(gap)}</span>
+      </span>
+    </li>`;
+  }).join('') : `<li class="empty">Ajoutez des joueurs dans l’effectif.</li>`;
+  $('#t6-history').innerHTML = hist.length ? `<ol class="q4-hist" reversed>${hist.slice().reverse().map((m, ri) => {
+    const i = hist.length - 1 - ri, d = new Date(m.date);
+    const when = isNaN(d) ? '' : d.toLocaleDateString('fr-FR', {day:'numeric', month:'short'});
+    const who = all.filter(p => m.played && m.played[p.id]).map(p => `${esc(displayName(p))} ${fmt6(m.played[p.id])}`).join(' · ');
+    return `<li><details><summary>Match ${i + 1}${when ? ' · ' + when : ''} · ${esc(cfgName(m.cfg))} · ${plural(m.sets, 'set', 'sets')}${m.half ? ' (changements à mi-set)' : ''}</summary><p class="foot">${who || 'Aucun joueur de l’effectif actuel'}</p></details></li>`;
+  }).join('')}</ol>` : '';
+  $('#t6-undo').hidden = !hist.length;
+  $('#t6-reset').hidden = !hasHistory6();
+}
+
 function renderSettings(){
   document.querySelectorAll('[data-action="set"]').forEach(b => b.setAttribute('aria-pressed', String(state[b.dataset.key]===b.dataset.val)));
   $('#sets-out').textContent = state.sets;
@@ -471,6 +533,7 @@ function lineupHTML(c, pr){
     <div class="lineup-head">
       <div class="t"><h3>${c.sys.name}</h3>${c.lib?'<span class="tag lib">+ Libéro</span>':''}</div>
       <div class="toolbar">
+        <button class="btn primary" data-action="validate6" data-key="${c.key}">Valider ce match</button>
         <button class="btn" data-action="rot-open" data-key="${c.key}">Rotations</button>
         <button class="btn" data-action="copy" data-key="${c.key}">Copier en texte</button>
       </div>
@@ -1205,7 +1268,7 @@ function afterTeamChange(k){
   if(k==='6'){
     state = team6().data;
     Object.keys(tabs).forEach(x => delete tabs[x]); Object.keys(views).forEach(x => delete views[x]);
-    renderSettings(); renderRoster(); renderResults(); renderTeamBar('6');
+    renderSettings(); renderRoster(); renderResults(); renderT6(); renderTeamBar('6');
   } else {
     $('#q4-msg').textContent = '';
     renderQ4();
@@ -1364,7 +1427,7 @@ document.addEventListener('keydown', e => {
 
 /* ---------- événements ---------- */
 function touched(){ if(state.example){ state.example = false; $('#example-note').hidden = true; } }
-function refresh(roster=true){ if(roster){ renderRoster(); renderTeamBar('6'); } renderResults(); save(); }
+function refresh(roster=true){ if(roster){ renderRoster(); renderTeamBar('6'); } renderResults(); renderT6(); save(); }
 
 document.addEventListener('click', e => {
   const b = e.target.closest('[data-action]'); if(!b) return;
@@ -1452,6 +1515,39 @@ document.addEventListener('click', e => {
       msg.textContent = `${plural(list.length, 'joueur', 'joueurs')} ${b.dataset.how==='replace' ? (list.length>1?'chargés':'chargé') : (list.length>1?'ajoutés':'ajouté')}.`;
       refresh(); break;
     }
+    case 'validate6': {
+      const c = getConfigs().find(x => x.key === b.dataset.key && x.best); if(!c) break;
+      const pr = present(), plan = buildPlan(c, pr);
+      state.hist6 = state.hist6 || [];
+      state.hist6.push({date: new Date().toISOString(), cfg: c.key, sets: state.sets, half: !!plan.half,
+                        present: pr.map(x => x.id), played: playedInPlan(plan, pr)});
+      state.pins = {};
+      Object.keys(tabs).forEach(x => delete tabs[x]); Object.keys(views).forEach(x => delete views[x]);
+      touched(); refresh(false);
+      $('#t6-msg').textContent = `Match ${state.hist6.length} enregistré (${cfgName(c.key)}). Les prochaines compos en tiennent compte.`;
+      const nb = document.querySelector(`[data-action="validate6"][data-key="${c.key}"]`);
+      if(nb){ nb.textContent = 'Match enregistré'; nb.disabled = true; setTimeout(() => { if(nb.isConnected){ nb.textContent = 'Valider ce match'; nb.disabled = false; } }, 1800); }
+      break;
+    }
+    case 't6-adj': {
+      const id = b.closest('[data-t6id]').dataset.t6id;
+      setPlayed6(id, (totals6()[id] || 0) + (+b.dataset.d));
+      refresh(false); break;
+    }
+    case 't6-undo': {
+      if(state.hist6 && state.hist6.length){ state.hist6.pop(); $('#t6-msg').textContent = 'Dernier match annulé.'; }
+      refresh(false); break;
+    }
+    case 't6-reset': {
+      if(Date.now() - (window.__t6Armed || 0) > 4000){
+        window.__t6Armed = Date.now(); b.textContent = 'Confirmer : tout remettre à zéro';
+        setTimeout(() => { if(b.isConnected) b.textContent = 'Remettre les compteurs à zéro'; }, 4000);
+        break;
+      }
+      window.__t6Armed = 0; state.hist6 = []; state.adj6 = {};
+      $('#t6-msg').textContent = 'Compteurs remis à zéro.';
+      refresh(false); break;
+    }
     case 'copy': {
       const c = getConfigs().find(x => x.key===b.dataset.key); if(!c) break;
       const text = lineupText(c, present());
@@ -1493,6 +1589,15 @@ document.addEventListener('change', e => {
   const again = document.getElementById(sel.id); if(again) again.focus();
 });
 
+document.addEventListener('change', e => {
+  if(!e.target.classList.contains('t6-num')) return;
+  const id = e.target.id.slice(4);
+  const v = parseFloat(e.target.value.replace(',', '.'));
+  if(!isNaN(v)) setPlayed6(id, v);
+  refresh(false);
+  const again = document.getElementById(e.target.id); if(again){ again.focus(); again.select(); }
+});
+
 document.addEventListener('input', e => {
   if(!e.target.classList.contains('name') || e.target.classList.contains('q4-name-in')) return;
   const row = e.target.closest('[data-id]');
@@ -1505,6 +1610,7 @@ document.addEventListener('input', e => {
 renderTeamBar('6');
 renderSettings();
 renderRoster();
+renderT6();
 renderResults();
 
 /* ==========================================================================
@@ -1548,6 +1654,14 @@ function cleanTeam6(d){
     setterLock: d.setterLock === 'free' ? 'free' : 'lock',
     selected: Array.isArray(d.selected) ? d.selected.filter(x => typeof x === 'string').slice(0, 10) : null,
     pins: cleanMap(d.pins),
+    histBal: d.histBal === 'off' ? 'off' : 'on',
+    adj6: (() => { const o = {}; Object.entries(cleanMap(d.adj6)).forEach(([id, v]) => { if(SAFE_ID.test(id) && isFinite(+v)) o[id] = Math.round(+v * 2) / 2; }); return o; })(),
+    hist6: (Array.isArray(d.hist6) ? d.hist6 : []).slice(0, 1000).map(m => ({
+      date: typeof m.date === 'string' ? m.date.slice(0, 40) : '',
+      cfg: typeof m.cfg === 'string' ? m.cfg.slice(0, 10) : '',
+      sets: clampSets(m.sets), half: !!m.half, present: cleanIds(m.present),
+      played: (() => { const o = {}; Object.entries(cleanMap(m.played)).forEach(([id, v]) => { if(SAFE_ID.test(id) && isFinite(+v) && +v >= 0 && +v <= 10) o[id] = Math.round(+v * 2) / 2; }); return o; })()
+    })),
     players: d.players.map(p => cleanPlayer(p, true))
   });
 }
@@ -1617,7 +1731,7 @@ function applyRestore(){
   Object.keys(views).forEach(x => delete views[x]);
   Object.keys(edits).forEach(x => delete edits[x]);
   save();
-  renderTeamBar('6'); renderSettings(); renderRoster(); renderResults();
+  renderTeamBar('6'); renderSettings(); renderRoster(); renderResults(); renderT6();
   $('#backup-confirm').hidden = true;
   backupMsg('Sauvegarde restaurée.');
 }
@@ -1768,7 +1882,7 @@ const TUTO = [
   {t: 'Bienvenue dans Compos Volley', x: 'Préparez vos matchs en quelques minutes : qui joue, à quel poste, à quel set, et comment tourner. Ce petit tour prend une minute.'},
   {t: 'Votre équipe', x: 'Choisissez ou créez une équipe dans la barre « Équipe 6×6 ». Dans « Effectif », marquez qui est présent et touchez les postes préférés de chacun, dans l’ordre. L’onglet « Niveaux » permet de noter chaque joueur de 1 à 5 par poste.', el: () => panelOf('#squad-h')},
   {t: 'Les réglages du match', x: 'Réglez le nombre de sets et votre priorité : les six meilleurs, une rotation équilibrée ou un temps de jeu égal. Vous pouvez aussi prévoir des changements à mi-set.', el: () => panelOf('#match-h')},
-  {t: 'Les compos', x: 'Comparez 5-1, 5-1 avec libéro et 4-2, puis lisez chaque compo set par set. Glissez un onglet de set pour changer l’ordre, et touchez « Modifier les joueurs » pour changer quelqu’un.', el: () => panelOf('#form-h')},
+  {t: 'Les compos', x: 'Comparez 5-1, 5-1 avec libéro et 4-2, puis lisez chaque compo set par set. Glissez un onglet de set pour changer l’ordre, et touchez « Modifier les joueurs » pour changer quelqu’un. Après le match, « Valider ce match » compte les sets joués de chacun.', el: () => panelOf('#form-h')},
   {t: '4 contre 4', x: 'Une équipe séparée pour le 4 contre 4. L’application équilibre le temps de jeu d’un match à l’autre, absents compris.', el: () => document.querySelector('.appnav [data-action="q4-open"]')},
   {t: 'Les rotations', x: 'Les six rotations en 5-1 et 4-2, en service, réception, attaque et défense, avec les déplacements animés. Par défaut, le passeur part de son poste, et les deux R4 et le libéro réceptionnent.', el: () => document.querySelector('.appnav .nav-rot')},
   {t: 'Vos données', x: () => hasBackup()

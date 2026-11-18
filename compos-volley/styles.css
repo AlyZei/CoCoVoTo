@@ -378,3 +378,8 @@ body.dragging-set,body.dragging-set *{cursor:grabbing!important}
 .tour-focus{scroll-margin-top:16px;position:relative;z-index:65;border-radius:12px;box-shadow:0 0 0 3px var(--accent),0 0 0 9999px rgb(6 10 20 / .55)!important}
 @media (prefers-reduced-motion:no-preference){.tuto-card{animation:tuto-in .25s ease both}}
 @keyframes tuto-in{from{transform:translateY(8px);opacity:0}to{transform:none;opacity:1}}
+.t6-list{list-style:none;margin:0;padding:0;display:grid;gap:6px}
+.t6-row{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:6px 10px;border:1px solid var(--line);border-radius:8px;padding:6px 8px}
+.t6-row.is-absent{background:var(--surface-2)}
+.t6-name{font-weight:700;min-width:0;overflow-wrap:anywhere}
+.t6-abs{font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.04em}
