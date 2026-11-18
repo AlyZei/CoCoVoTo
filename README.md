@@ -11,7 +11,7 @@ Des outils gratuits pour les entraîneurs et les équipes de volley. Ils s’ouv
 Pour préparer les matchs et les entraînements :
 
 - l’effectif, les postes préférés de chacun et le niveau à chaque poste ;
-- des compositions en 6 contre 6 (5-1, 5-1 avec libéro, 4-2), set par set, avec le banc et les changements ;
+- des compositions en 6 contre 6 (5-1, 5-1 avec libéro, 4-2), set par set, avec le banc, les changements et le décompte des sets joués d’un match à l’autre ;
 - des matchs en 4 contre 4 où le temps de jeu s’équilibre d’un match à l’autre ;
 - un aide-mémoire animé des rotations : service, réception, attaque et défense.
 

@@ -127,6 +127,28 @@
         </div>
       </section>
 
+      <section class="panel" aria-labelledby="t6-h">
+        <div class="panel-head">
+          <h2 id="t6-h">Temps de jeu</h2>
+          <span class="sub" id="t6-sub"></span>
+        </div>
+        <p class="hint">Après chaque match, touchez «&nbsp;Valider ce match&nbsp;» sur la compo jouée&nbsp;: les sets joués s’ajoutent à chaque joueur. Les compos suivantes font jouer davantage ceux qui ont moins joué, absents compris (sauf en «&nbsp;Six meilleurs&nbsp;»). Les compteurs se corrigent par demi-set.</p>
+        <div class="setting">
+          <span class="field-label">Équilibrer avec les matchs précédents</span>
+          <div class="seg" data-group="histBal">
+            <button data-action="set" data-key="histBal" data-val="on">Oui</button>
+            <button data-action="set" data-key="histBal" data-val="off">Non</button>
+          </div>
+        </div>
+        <ul id="t6-list" class="t6-list"></ul>
+        <div id="t6-history"></div>
+        <div class="toolbar">
+          <button class="btn ghost" data-action="t6-undo" id="t6-undo">Annuler le dernier match</button>
+          <button class="btn ghost" data-action="t6-reset" id="t6-reset">Remettre les compteurs à zéro</button>
+        </div>
+        <p id="t6-msg" class="foot" role="status"></p>
+      </section>
+
       <section class="panel" aria-labelledby="backup-h">
         <div class="panel-head">
           <h2 id="backup-h">Sauvegarder et transférer</h2>
